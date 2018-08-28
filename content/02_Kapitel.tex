@@ -1,0 +1,33 @@
+\section{Kapitel}\label{sec:kaptiel}
+
+\blindtext
+
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.5\textwidth]{placeholder}
+    \caption{a nice placeholder}
+    \label{fig:place}
+\end{figure}
+
+\blindtext
+Außerdem lässt sich so eine \autoref{fig:place} referenzieren\cite{dreyfus:1980}.
+
+
+\lstinputlisting[
+    float,
+    floatplacement=H,
+    caption=Code-Beispiel aus \cite{mustermann:2012},
+    label=lst:hello
+]{hello-world.java}
+
+Auch lässt sich das \autoref{lst:hello} referenzieren.
+Wobei folgendes zu beachten ist:
+\blindtext
+
+\lstinputlisting[
+    float,
+    floatplacement=H,
+    caption=Python-Code,
+    label=Python-Code
+    language=Python
+]{quicksort.py}
