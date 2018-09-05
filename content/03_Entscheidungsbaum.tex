@@ -1,0 +1,35 @@
+\newpage
+\section{Entscheidungsbaum}\label{sec:entscheidungsbaum}
+
+\begin{algorithm}
+    \caption{Erzeugen eines Baums}
+    \SetKwInOut{Input}{Eingabe}
+    \SetKwInOut{Output}{Ausgabe}
+   % \underline{function Euclid} $(a,b)$\;
+    \Input{Beispielmenge $B$, Attributmenge $A$,\\
+            Defaultklassifikation $d$, Mindestgenauigkeit $g$}
+    \Output{Entscheidungsbaum $E$}
+    \eIf{$B = \emptyset$}{
+        Gibt $d$ zurück\;
+        }{
+            Setze $p$ = Anteil von positiven Klassifikationen in $b$\;
+            \eIf{$A = \emptyset$ oder $p > g$ oder $p < (1 - g)$}{
+                Gib Knoten mit Wahrscheinlichkeit $p$ zurück\;
+            }{
+                Wähle $a \in A$ \tcp*{Siehe anderer Algorithmus}
+                Setze $A' = A \setminus \{a\}$\;
+                Initialisiere $N$ als Unterbäume mit Kanten $w \in Werte(a)$\;
+                \ForEach{$w_i \in Werte(a)$}{
+                    Setze $B_i = \left\{b \in B | b.a = w_i\right\}$\;
+                    \uIf{$p >= 50\%$}{
+                        Setze $d' = $Positive Klassifikation\;
+                    }
+                    \uElse{
+                        Setze $d' = $Negative Klassifikation\;
+                    }
+                    Setze $N_{w_i} = Entscheidungsbaum(B_i, A', d', g)$\;
+                }
+                Gib Baum mit Wurzelknoten $a$ und Unterbäumen $N$ zurück\;
+            }
+        }
+\end{algorithm}
