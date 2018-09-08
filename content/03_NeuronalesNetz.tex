@@ -14,58 +14,148 @@ Diese Schritte werden in den folgenden Abschnitten erläutert.
 
 \subsection{Analysieren des Datensatzes}
 Ein Neuronales Netz lernt aus Informationen nicht aus den Daten. Aus diesem Grund ist es wichtig, 
-die Informationen die das Netz als Eingabe erhält möglichst genau zu spezifizieren. Eingaben die 
-eine hohe Korrelation besitzen können möglicherweise in einem aussagekräftigen Attribute
-zusammengefasst werden. 
+die Informationen die das Netz als Eingabe erhält möglichst genau zu spezifizieren. Es ist 
+sinnvoller wenige aber sehr aussagekräftige Eingabewerte für das Neuronale Netz zu definieren.
+\subsubsection{Korrelation der Eingabewerte} 
+Eingaben die eine hohe Korrelation besitzen können möglicherweise in einem aussagekräftigen Attribute
+zusammengefasst werden. \\
 \autoref{tab:korr1} und \autoref{tab:korr2} zeigen Ausschnitte aus der Korrelationsmatrix aller 
-gegebenen Attribute. 
+gegebenen Attribute. \\
 \autoref{tab:korr1} zeigt einen Zusammenhang, der den Erwartungen entspricht. \textit{Eine Wohnung die größer ist, kostet auch mehr}.
 Eine Möglichkeit diesen Zusammenhang darzustellen, ist das Attribut \textit{Kosten pro Quadratmeter}. Durch dieses Attribut
 könnten die verschiedenen Wohnungen unabhängig der Größe verglichen werden. Der Zusammenhang zwischen \textit{Miete, Kaution und Nebenkosten}
-lässt sich in einem Attribut \textit{Gesamtkosten} zusammenfassen.
+lässt sich in einem Attribut \textit{Gesamtkosten} zusammenfassen.\\
 Auch der Ausschnitt den \autoref{tab:korr2} zeigt, ist nachvollziehbar. Jedoch wird durch die berechneten Korrelationen sichtbar, 
 dass Beispielsweise die \textit{Kehrwoche} nicht sehr stark mit dem \textit{Balkon} korreliert. Selbst die Korrelation zwischen
 \textit{Stockwerk} und \textit{Aufzug} ist nicht sehr stark. Aus diesem Grund bietet es sich hier nicht an, ein zusammenfassende 
 Eingabe zu verwenden.
 
 \useunder{\uline}{\ul}{}
-\centering
 \begin{table}[h]
-    \begin{tabular}{|l|l|l|l|l|}
-        \hline
-        {\ul \textbf{}}             & {\ul \textbf{Zimmerzahl}} & {\ul \textbf{Miete}} & {\ul \textbf{Nebenkosten}} & {\ul \textbf{Kaution}} \\ \hline
-        {\ul \textbf{Zimmerzahl}}   & 1                         &                      &                            &                        \\ \hline
-        {\ul \textbf{Miete}}        & 0,96                      & 1                    &                            &                        \\ \hline
-        {\ul \textbf{Nebenkosten}}  & 0,94                      & 0,94                 & 1                          &                        \\ \hline
-        {\ul \textbf{Kaution}}      & 0,58                      & 0,58                 & 0,58                       & 1                      \\ \hline
-        {\ul \textbf{Quadratmeter}} & 0,98                      & 0,96                 & 0,94                       & 0,58                   \\ \hline
-    \end{tabular}
-    \caption{Ausschnitt 1 Korrelationsmatrix}
-    \label{tab:korr1}
+    \begin{center}
+        \begin{tabular}{|l|l|l|l|l|}
+            \hline
+            {\ul \textbf{}}             & {\ul \textbf{Zimmerzahl}} & {\ul \textbf{Miete}} & {\ul \textbf{Nebenkosten}} & {\ul \textbf{Kaution}} \\ \hline
+            {\ul \textbf{Zimmerzahl}}   & 1                         &                      &                            &                        \\ \hline
+            {\ul \textbf{Miete}}        & 0,96                      & 1                    &                            &                        \\ \hline
+            {\ul \textbf{Nebenkosten}}  & 0,94                      & 0,94                 & 1                          &                        \\ \hline
+            {\ul \textbf{Kaution}}      & 0,58                      & 0,58                 & 0,58                       & 1                      \\ \hline
+            {\ul \textbf{Quadratmeter}} & 0,98                      & 0,96                 & 0,94                       & 0,58                   \\ \hline
+        \end{tabular}
+        \caption{Ausschnitt 1 Korrelationsmatrix}
+        \label{tab:korr1}
+    \end{center}
 \end{table}
 
 \useunder{\uline}{\ul}{}
 \begin{table}[h]
-    \centering
-    \begin{tabular}{|l|l|l|l|}
-    \hline
-        {\ul \textbf{}}              & {\ul \textbf{Stockwerk}} & {\ul \textbf{Kehrwoche}}  & {\ul \textbf{Balkon}} \\ \hline
-        {\ul \textbf{Stockwerk}}     & 1                        &                           &                       \\ \hline
-        {\ul \textbf{Kehrwoche}}     & 0,31                     & 1                         &                       \\ \hline
-        {\ul \textbf{Balkon}}        & 0,53                     & 0,13                      & 1                     \\ \hline
-        {\ul \textbf{Aufzug}}        & 0,67                     & 0,23                      & 0,43                  \\ \hline
-    \end{tabular}
-    \caption{Ausschnitt 2 Korrelationsmatrix}
-    \label{tab:korr2}
+    \begin{center}
+        \begin{tabular}{|l|l|l|l|}
+        \hline
+            {\ul \textbf{}}              & {\ul \textbf{Stockwerk}} & {\ul \textbf{Kehrwoche}}  & {\ul \textbf{Balkon}} \\ \hline
+            {\ul \textbf{Stockwerk}}     & 1                        &                           &                       \\ \hline
+            {\ul \textbf{Kehrwoche}}     & 0,31                     & 1                         &                       \\ \hline
+            {\ul \textbf{Balkon}}        & 0,53                     & 0,13                      & 1                     \\ \hline
+            {\ul \textbf{Aufzug}}        & 0,67                     & 0,23                      & 0,43                  \\ \hline
+        \end{tabular}
+        \caption{Ausschnitt 2 Korrelationsmatrix}
+        \label{tab:korr2}
+    \end{center}
 \end{table}
+ 
+\subsubsection{Aussagekraft der Attribute}
+Wird auch das Bewertungsattribut in die Korrelationsmatrix eingebunden, können bereits erste Vermutungen dazu getroffen werden, 
+welche Attribute besonders aussagekräftig, beziehungsweise welche weniger relevant für die Bewertung der Wohnung sind. 
+\autoref{tab:tab:korrBewertung} zeigt die Attribute, die die stärkste Korrelation zur Bewertung besitzen.
+\useunder{\uline}{\ul}{}
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{|l|l|}
+            \hline
+            {\ul \textbf{}}              & {\ul \textbf{Bewertung}} \\ \hline
+            {\ul \textbf{Schule}}        & 0,51                        \\ \hline
+            {\ul \textbf{Zimmerzahl}}    & 0,23                     \\ \hline
+            {\ul \textbf{Kindergarten}}  & 0,23                     \\ \hline
+            {\ul \textbf{Nebenkosten}}   & 0,19                     \\ \hline
+        \end{tabular}
+        \caption{Ausschnitt 2 Korrelationsmatrix}
+        \label{tab:korrBewertung}
+    \end{center}
+\end{table}
+Zu einem ähnlichen, aber fundierterem Ergebnis, kommt auch der Entscheidungsbaum. 
 
+\subsubsection{Ergebnis der Analyse}
+Attribute mit hoher Korrelation untereinander bzw. mit der Bewertung:
+\begin{itemize}
+    \item \textbf{Kosten pro Quadratmeter:} Miete, Quadratmeter
+    \item \textbf{Gesamtkosten:} Nebenkosten, Miete, Kaution
+    \item \textbf{Kinderfreundlichkeit:} Schule, Kindergarten
+    \item \textbf{Mobilität:} Entfernung
+    \item \textbf{Ausstattung:} Möbeliert
+    \item \textbf{Zimmerzahl}
+\end{itemize}
 
-\paragraph{Aussagekraft der Attribute}
-% Wird auch das Bewertungsattribut in die Korrelationsmatrix eingebunden, lässt sich bereits ein erster 
+Ausgeschlossene Attribute mit Korrelationswerten unter 0,1 beziehungsweise -0,1 sind:\\
+Stockwerk, Heizung, Hausmeister, S-Bahn, Alter, Aufzug, Lage, Küche, Bad, Balkon, Terrasse, Kehrwoche, 
+und Garage.
 
+\subsection{Umwandlung der Daten in numerische Werte}
+Im nächsten Schritt müssen alle Werte in numerische Werte umgewandelt werden. 
+\begin{itemize}
+    \item \textit{num-num}: Bei diesen Werten wird ganz einfach der Mittelwert gebildet. 
+    \item \textit{über/unter}: Die Randwerte werden als normale Werte angesehen. 
+    \item \textit{nah/erreichbar/fern}: Hier bietet es sich an das Attribut als \textit{Entfernung zu ...} umzuschreiben. 
+                So kann für \textit{nah} der Minimalwert und für \textit{fern} der Maximalwert verwendet werden.
+    \begin{itemize}
+        \item nah: 0
+        \item erreichbar: 0,5
+        \item fern: 1
+    \end{itemize}
+    \item \textit{Boolean}: Für Werte die entweder erfüllt oder nicht erfüllt sind, wird 0 (nicht erfüllt) und 1 (erfüllt) verwendet.
+\end{itemize}
 
-\subsection{Tensorflow}
+Berechnungen die durchgeführt werden müssen: 
+\begin{itemize}
+    \item $Miete pro Quadratmeter = Miete/Quadratmeter$
+    \item $Gesamtkosten = Miete + Nebenkosten + Kaution$
+    \item $Kinderfreundlichkeit = (Schule + Kindergarten)/2$
+\end{itemize}
+
+\subsection{Normierung der Daten}
+Um eine Normierung der Daten durchzuführen müssen zunächst die Maximalwerte der 
+jeweiligen Attribute definiert werden. Die Werte werden anschließend auf Werte 
+zwischen 0 und 1 normiert. Dies ist notwendig, da eine Vorgewichtung der Attribute
+vermieden werden soll.
+
+\subsection{Bibliothek Tensorflow}
+Tensorflow ist eine Python-Bibliothek für verschiedene Anwendungen im Bereich Deep Learning. 
+Der Name spiegelt das Grundkonzept dieser Bibliothek wieder. 
+\textit{Tensor} bezeichnet den Datensatz der in das Deep Learning System 
+eingegeben und verarbeitet wird. \textit{Flow} bezeichnet den Ablauf, 
+der Verarbeitung des Datensatzes. \\
+Beim Erstellen eines Systems mit Tensorflow werden zwei Phasen 
+unterschieden. 
+Die Bibliothek bietet neben dem generellen Konzept für Maschine Learning Anwendungen 
+viele mathematische Funktionen. 
+\cite{tf:2018}
 
 \subsection{Konzept zur Implementierung mit Tensorflow}
+\subsubsection{Lernrate}
+Tensorflow bietet verschiedene Verfahren für Konstante und Variable Lernraten. 
+
+
+\begin{itemize}
+    \item Lernrate: 
+    \item Trainingswiederholungen:
+\end{itemize}
+
+\lstinputlisting[
+    float,
+    floatplacement=H,
+    caption=Definition des Perceptrons,
+    label=lst:nnModel,
+    language=Python
+]{nnModel.py}
+
 
 \subsection{Zusammenfassung}
