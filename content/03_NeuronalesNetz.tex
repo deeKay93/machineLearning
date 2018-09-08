@@ -140,22 +140,56 @@ viele mathematische Funktionen.
 \cite{tf:2018}
 
 \subsection{Konzept zur Implementierung mit Tensorflow}
-\subsubsection{Lernrate}
-Tensorflow bietet verschiedene Verfahren für Konstante und Variable Lernraten. 
-
-
-\begin{itemize}
-    \item Lernrate: 
-    \item Trainingswiederholungen:
-\end{itemize}
+\subsubsection{Lernrate und Lernschritt}
+Tensorflow bietet verschiedene Verfahren für konstante und variable Lernraten. 
+Als Start für eine konstante Lernrate bietet sich der Wert 0,5 an. Jedoch bietet 
+die Implementierung einer variablen Lernrate einige Vorteile. Die Lernrate kann während 
+eines Lernschritts erhöht oder verringert werden. Dies steigert die Effizienz des Algorithmus. 
+\autoref{lst:nnVariableLernRate} zeigt die Implementierung mithilfe von Tensorflow. 
+Die Lernrate wird hier alle 100000 Schritt mit der Basis 0,96 erhöht. 
 
 \lstinputlisting[
     float,
     floatplacement=H,
-    caption=Definition des Perceptrons,
-    label=lst:nnModel,
+    caption=Implementierung einer variablen Lernrate,
+    label=lst:nnVariableLernRate,
     language=Python
+]{nnVariableLernRate.py}
+
+
+
+Durch die Minimierung des \textit{global step} wird die Lernrate erhöht. 
+Die Definition des Lernschrittes ist in \autoref{lst:nnLernSchritt} dargestellt.
+
+\lstinputlisting[
+    float,
+    floatplacement=H,
+    caption=Implementierung des Lernschrittes,
+    label=lst:nnLernSchritt,
+    language=Python
+]{nnLernschritt.py}
+
+\subsubsection{Initiale Gewichte}
+Die initialen Gewichte für das Netz werden zufällig gesetzt. Diese werden in der Lernphase 
+mit hilfe einer Kostenfunktion angepasst.
+
+\subsubsection{Aufbau des Perceptrons}
+Die Anzahl der Schichten wird anhand der Anzahl der Eingabewerte ermittelt. 
+Durch die Reduzierung der Eingabeattribute in der Vorverarbeitung sind nun lediglich 6 Neuronen in 
+der Eingabe-Schicht notwendig. Eine Handregel besagt die Anzahl der versteckten Schichten sollte mit
+$Anzahl Hidden Layer = Eingabeneuronen/2$ berechnet werden. Demnach sind 3 versteckte Schichten notwendig. 
+Die Ausgabe des Netzes soll das Attribut \textit{Bewertung} sein. Demnach enthält die 
+Ausgabe-Schicht lediglich ein Neuron.\\
+\autoref{lst:nnModel} zeigt die Implementierung eines solchen Perceptrons. Die \textit{matmul} Funktion 
+berechnet hierbei eine Matrixmultiplikation zwischen vorhergehender Schicht, Gewichten dieser Schicht und der Neigung dieser Schicht.
+\lstinputlisting[
+    float,
+    floatplacement=H,
+    caption=Implementierung des Perceptrons,
+    label=lst:nnModel,
+    language=Python 
 ]{nnModel.py}
 
-
 \subsection{Zusammenfassung}
+
+
