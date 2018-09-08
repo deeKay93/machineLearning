@@ -1,35 +1,92 @@
 \newpage
 \section{Entscheidungsbaum}\label{sec:entscheidungsbaum}
 
-\begin{algorithm}
+
+\todoask[inline]{Vorteile Entscheidungsbaum?}
+Grundlegend basiert der Algorithmus zum Erzeugen des Entscheidungsbaums auf dem,
+in der Vorlesung vorgestellten. An verschiedenen Stellen wird der Algorithmus optimiert.
+Der finale Algorithmus ist in \autoref{alg:baum-erzeugen} dargestellt.
+Besonderer Augenmerk liegt hierbei auf den Optimierungen, welche im Folgenden beschrieben werden:
+\begin{description}
+    \item[\autoref{alg:baum-erzeugen-a}] Anstatt einer binären \enquote{Ja-Nein}-Klassifikation wird als Ergebnis die Wahrscheinlichkeit dafür zurückgegben,
+                    dass für den entsprechenden Datensatz das Ergebnis positiv ist.
+                    \todoask[inline]{Vorteil Wahrscheinlichkeit?}
+
+    \item[\autoref{alg:baum-erzeugen-b}] Für den Fall, dass die Beispielmenge zwei (oder mehr) identische Datensätze mit unterschiedlicher Klassifikation enthält,
+    jedoch die Attributmenge leer ist, wird der Anteil der positiven Klassifikationen als Wert für den entsprechenden Knoten gesetzt.
+    \item[\autoref{alg:baum-erzeugen-c} \& \autoref{alg:baum-erzeugen-d}] Um eine zu starke Spezialisierung auf die Trainingsdaten zu verhindern, kann eine \textit{Genauigkeit} angegeben werden.
+    Ist für eine Beispielmenge diese Genauigkeit erreicht so wird diese Beispielmenge nicht weiter unterteilt.
+\end{description}
+
+\begin{algorithm}[ht!]
     \caption{Erzeugen eines Baums}
-    \SetKwInOut{Input}{Eingabe}
-    \SetKwInOut{Output}{Ausgabe}
+    \label{alg:baum-erzeugen}
    % \underline{function Euclid} $(a,b)$\;
     \Input{Beispielmenge $B$, Attributmenge $A$,\\
-            Defaultklassifikation $d$, Mindestgenauigkeit $g$}
+            Defaultwahrscheinlichkeit $d$ (in $\%$), Genauigkeit $g$}
     \Output{Entscheidungsbaum $E$}
-    \eIf{$B = \emptyset$}{
-        Gibt $d$ zurück\;
+    \eIf{$B = \emptyset$}{ \label{alg:baum-erzeugen-a}
+        Gib Knoten mit Wahrscheinlichkeit $d$ zurück\;
         }{
             Setze $p$ = Anteil von positiven Klassifikationen in $b$\;
-            \eIf{$A = \emptyset$ oder $p > g$ oder $p < (1 - g)$}{
+            \eIf{\\
+                \hspace*{1.5em}$A = \emptyset$ {\normalfont oder} \label{alg:baum-erzeugen-b} \\
+                \hspace*{1.5em}$p > g$ {\normalfont oder} \label{alg:baum-erzeugen-c}\\
+                \hspace*{1.5em}$p < (1 - g)$ \label{alg:baum-erzeugen-d}
+             \\}{
                 Gib Knoten mit Wahrscheinlichkeit $p$ zurück\;
             }{
-                Wähle $a \in A$ \tcp*{Siehe anderer Algorithmus}
+                Wähle $a \in A$ \label{alg:baum-erzeugen-d}
                 Setze $A' = A \setminus \{a\}$\;
                 Initialisiere $N$ als Unterbäume mit Kanten $w \in Werte(a)$\;
                 \ForEach{$w_i \in Werte(a)$}{
                     Setze $B_i = \left\{b \in B | b.a = w_i\right\}$\;
-                    \uIf{$p >= 50\%$}{
-                        Setze $d' = $Positive Klassifikation\;
-                    }
-                    \uElse{
-                        Setze $d' = $Negative Klassifikation\;
-                    }
-                    Setze $N_{w_i} = Entscheidungsbaum(B_i, A', d', g)$\;
+                    Setze $N_{w_i} = Entscheidungsbaum(B_i, A', p, g)$\;
                 }
                 Gib Baum mit Wurzelknoten $a$ und Unterbäumen $N$ zurück\;
             }
         }
 \end{algorithm}
+
+Die Auswahl des als nächsten zu betrachtenden Attributs geschieht mittels \autoref{alg:auswahl-merkmal}.
+Hierdurch wird das Attribut mit dem höchsten normierten Informationsgewinn ($Gain$) ausgewählt.
+
+\begin{algorithm}[ht!]
+    \caption{Auswahl des besten Attributs}
+    \label{alg:auswahl-merkmal}
+    \Input{Beispielmenge $B$, Attributmenge $A$}
+    \Output{Attribut $a$}
+    Setze Gewinn $g = 0$\;
+    \ForEach{$a_i \in A$}{
+        Berechne $g_i = Gain(B,a_i)$\;
+        \If{
+            $g_i > g$
+        }{
+            Setze $g = g_i$\;
+            Setze $a = a_i$\;
+        }
+    }
+    Gib $a$ zurück\;
+\end{algorithm}
+
+
+
+% \begin{equation}
+%     \label{eqn:wahrscheinlichkeit}
+%     P(A, B) = \frac{
+%             \lvert \{a \in A \mid a \in B \} \rvert
+%         }{
+%             \lvert A \rvert
+%         }
+%     \tag{Wahrscheinlichkeit}
+% \end{equation}
+% \begin{equation}
+%     \label{eqn:informationsgehalt}
+%     I(p) = -\log_2(p)
+%     \tag{Informationsgehalt}
+% \end{equation}
+% \begin{equation}
+%     \label{eqn:entropie}
+%     H(A) = \sum\limits_{w\in Werte(A)} P(A, w) * I(P(A, w))
+%     \tag{Entropie}
+% \end{equation}
