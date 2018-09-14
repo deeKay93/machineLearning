@@ -1,9 +1,15 @@
 \section{Neuronales Netz}\label{sec:nn}
-
-
-
-\subsubsection{Ergebnis der Analyse}
-Attribute mit hoher Korrelation untereinander bzw. mit der Bewertung:
+In der Analyse der Daten (siehe\autoref{sec:analyse}) wurde die Korrelation 
+der verschiedenen Eigenschaften von Wohnungen untersucht. Die dort gefundenen
+Zusammenhänge können nun verwendet werden, um die Eingaben für das Neuronale 
+Netz anzupassen. Dies ist notwendig, da ein neuronales Netz effizienter
+die gewünschte Funktion erlernen kann, wenn die Eingaben aussagekräftige 
+Informationen darstellen. \\
+Aus diesem Grund werden für das Netz nicht einfach die in der Aufgabenstellung 
+gegebenen Attribute verwendet sondern Attribute die eine hohe Korrelation besitzen
+zusammengefasst und Attribute die einen geringen Einfluss auf die Bewertung haben
+nicht verwendet. \\
+Die Folgende Auflistung zeigt die Attribute, die verwendet werden: 
 \begin{itemize}
     \item \textbf{Kosten pro Quadratmeter:} Miete, Quadratmeter
     \item \textbf{Gesamtkosten:} Nebenkosten, Miete, Kaution
@@ -17,19 +23,10 @@ Ausgeschlossene Attribute mit Korrelationswerten unter 0,1 beziehungsweise -0,1 
 Stockwerk, Heizung, Hausmeister, S-Bahn, Alter, Aufzug, Lage, Küche, Bad, Balkon, Terrasse, Kehrwoche, 
 und Garage.
 
+\paragraph{Kosten pro Quadratmeter}
+Dieses Attribut löst die Korrelation zwischen Miete und der Anzahl der Quadratmeter und kann 
+stellt so eine aussagekräftigere Eigenschaft für die Bewertung des Preis-Leistungsverhältnisses dar.
 
-\subsection{Einleitung}
-Um ein Neuronales Netz zu erstellen, dass die Kundenpräferenzen in einer Wohnungsbörse erlernt,
-sind zunächst einige Vorverarbeitungsschritte notwendig.
-\begin{itemize}
-    \item Analysieren des Datensatzes, um aussagekräftige Eingabewerte für das Neuronale Netz zu
-            finden.
-    \item Umwandlung des Datensatzes in numerische Werte, damit diese vom Netz konsumierbar sind.
-    \item Normierung des Datensatzes um eine Vorgewichtung von Attributen zu vermeiden.
-    \item Entscheidung über die Struktur des Netzes, Anzahl der Neuronen und Schichten, und Auswahl 
-            eines geeigneten Lernverfahrens.
-\end{itemize}
-Diese Schritte werden in den folgenden Abschnitten erläutert. 
 
 \subsection{Umwandlung der Daten in numerische Werte}
 Im nächsten Schritt müssen alle Werte in numerische Werte umgewandelt werden. 
@@ -47,11 +44,15 @@ Im nächsten Schritt müssen alle Werte in numerische Werte umgewandelt werden.
 \end{itemize}
 
 Berechnungen die durchgeführt werden müssen: 
-\begin{itemize}
-    \item $Miete pro Quadratmeter = Miete/Quadratmeter$
-    \item $Gesamtkosten = Miete + Nebenkosten + Kaution$
-    \item $Kinderfreundlichkeit = (Schule + Kindergarten)/2$
-\end{itemize}
+\begin{equation}
+        MieteProQuadratmeter = \frac{Miete}{Quadratmeter}
+\end{equation}
+\begin{equation}
+    Gesamtkosten = Miete + Nebenkosten + Kaution
+\end{equation}
+\begin{equation}
+    Kinderfreundlichkeit = \frac{Schule + Kindergarten}{2}
+\end{equation}
 
 \subsection{Normierung der Daten}
 Um eine Normierung der Daten durchzuführen müssen zunächst die Maximalwerte der 
@@ -59,7 +60,47 @@ jeweiligen Attribute definiert werden. Die Werte werden anschließend auf Werte
 zwischen 0 und 1 normiert. Dies ist notwendig, da eine Vorgewichtung der Attribute
 vermieden werden soll.
 
-\subsection{Bibliothek Tensorflow}
+\subsection{Initiale Gewichtung der Neuronen}
+Die initialen Gewichte für das Netz werden zufällig gesetzt. Diese werden in der Lernphase 
+mit hilfe einer Lernregel angepasst.
+
+\subsection{Netzstruktur}
+Das Netz soll aus $6$ Eingabewerten einen Ausgabewert berechnen. 
+
+\begin{figure}[h]
+	    \centering
+        \includegraphics[width=15cm]{NNStruktur.PNG}
+        \label{img:nnStruktur}
+        \caption{Struktur des Neuronalen Netzes}
+\end{figure}
+
+\begin{itemize}
+    \item Feed-Forward Netz
+\end{itemize}
+
+\subsection{Lernregel}
+Die Lernregel sorgt für die Anpassung der Gewichte. 
+
+\subsection{Transferfunktion}
+Die Transferfunktion wandelt die normierten Eingabewerte in die Ausgabe der einzelnen Neuronen um.
+
+\begin{equation}
+    T_s(x) = \frac{1}{1+e^(\frac{x-S}{k})}
+\end{equation}
+
+\subsection{Arbeitsweise/Ablauf}
+
+\begin{enumerate}
+    \item Initialisierung
+    \item Berechnung der Aktivierung \textit{Hidden-Layer}
+    \item Berechnung Ausgabe der \textit{Hidden-Layer} mithilfe der Transferfunktion
+    \item Berechnung Aktivierung \textit{Output-Layer}
+    \item Berechnung der Ausgabe durch die Transferfunktion.
+\end{enumerate}
+
+\subsection{Berechnung der Fehler}
+
+\subsection{Bibliothek Tensorflow zur Implementierung}
 Tensorflow ist eine Python-Bibliothek für verschiedene Anwendungen im Bereich Deep Learning. 
 Der Name spiegelt das Grundkonzept dieser Bibliothek wieder. 
 \textit{Tensor} bezeichnet den Datensatz der in das Deep Learning System 
@@ -68,7 +109,7 @@ der Verarbeitung des Datensatzes. \\
 Beim Erstellen eines Systems mit Tensorflow werden zwei Phasen 
 unterschieden. 
 Die Bibliothek bietet neben dem generellen Konzept für Maschine Learning Anwendungen 
-viele mathematische Funktionen. 
+viele weiter mathematische Funktionen. 
 \cite{tf:2018}
 
 \subsection{Konzept zur Implementierung mit Tensorflow}
