@@ -106,7 +106,7 @@ Beim Erstellen wird ein Attribut ausgewählt, und für jede Ausprägung ein Unte
 Details hierzu sind in \autoref{alg:baum-erzeugen} dargestellt.
 
 Das \enquote{Ausdrucken} des Baums geschieht,
-indem erst die Daten des aktuellen Knotens un
+indem erst die Daten des aktuellen Knotens und
 dann nach und nach die Daten der Unterbäume zu einer Zeichenkette hinzugefügt werden.
 
 Um den Wert eines neuen Datensatzes zu ermitteln wird ausgehend von der Wurzel in jedem Knoten der zugehörige Attributswert aus dem Datensatz ausgelesen.
@@ -176,6 +176,8 @@ Es ergeben sich die in \autoref{tab:run-results} dargestellten Ergebnisse:
         \label{tab:run-results}
     \end{center}
 \end{table}
+
+\todoask[inline]{Auch Unterscheidung False positive/negative betrachten?}
 
 Die Durchläufe mit dem Mindestverhältnis $2$ (T2, C2) scheiden im Vergleich sowohl bei den Test- als auch bei den Trainingsdaten am schlechtsten ab.
 Bei einem Mindestverhältnis von $0$ (T0, C0) ist das Abbruchkriterium quasi nicht vorhanden.

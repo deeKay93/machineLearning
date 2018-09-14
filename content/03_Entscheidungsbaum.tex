@@ -1,16 +1,15 @@
 \newpage
 \section{Entscheidungsbaum}\label{sec:entscheidungsbaum}
-\todoask[inline]{Vorteile Entscheidungsbaum? / Einleitung?}
-
-Grundlegend basiert der Algorithmus zum Erzeugen des Entscheidungsbaums auf dem,
-in der Vorlesung vorgestellten. An verschiedenen Stellen wird der Algorithmus optimiert.
-Der finale Algorithmus ist in \autoref{alg:baum-erzeugen} dargestellt.
-Besonderer Augenmerk liegt hierbei auf den Optimierungen, welche im Folgenden beschrieben werden:
+Grundlegend basiert der Algorithmus zum Erzeugen des Entscheidungsbaums auf dem
+in der Vorlesung vorgestellten Verfahren \emph{ID3}.
+Ebenfalls wird die Verbesserung der Attributwahl durch den normierten Informationsgewinn übernommen.
+Ergänzt um weitere Optimierungen entsteht so das in \autoref{alg:baum-erzeugen} beschriebene Verfahren.
+Besonderer Augenmerk liegt hierbei auf den folgenden Anpassungen:
 \begin{description}
     \item[\autoref{alg:baum-erzeugen-a}] Anstatt einer binären \enquote{Ja-Nein}-Klassifikation wird als Ergebnis die Wahrscheinlichkeit dafür zurückgegben,
                     dass für den entsprechenden Datensatz das Ergebnis positiv ist.
-                    \todoask[inline]{Vorteil Wahrscheinlichkeit?}
-
+                    Werden so mehrere Datensätze bewertet können sie in einer Rangliste sortiert werden.
+                    Beispielsweise könnte ein Makler so bevorzugt wahrscheinlichere Mietobjekte anbieten.
     \item[\autoref{alg:baum-erzeugen-b}] Für den Fall, dass die Beispielmenge zwei (oder mehr) identische Datensätze mit unterschiedlicher Klassifikation enthält,
     jedoch die Attributmenge leer ist, wird der Anteil der positiven Klassifikationen als Wert für den entsprechenden Knoten gesetzt.
     \item[\autoref{alg:baum-erzeugen-c}] Enthält die Beispielmenge nur noch positive oder nur noch negative Ergebnisse,
@@ -28,8 +27,8 @@ Besonderer Augenmerk liegt hierbei auf den Optimierungen, welche im Folgenden be
     \Input{Beispielmenge $B$, Attributmenge $A$,\\
             Defaultwahrscheinlichkeit $d$ (in $\%$), Verhältnis $v$}
     \Output{Entscheidungsbaum $E$}
-    \eIf{$B = \emptyset$}{ \label{alg:baum-erzeugen-a}
-        Gib Knoten mit Wahrscheinlichkeit $d$ zurück\;
+    \eIf{$B = \emptyset$}{
+        Gib Knoten mit Wahrscheinlichkeit $d$ zurück\; \label{alg:baum-erzeugen-a}
         }{
             Setze $p$ = Anteil von positiven Klassifikationen in $b$\;
             \eIf{\\
@@ -56,6 +55,7 @@ Besonderer Augenmerk liegt hierbei auf den Optimierungen, welche im Folgenden be
         }
 \end{algorithm}
 
+\noindent
 Die Auswahl des als nächsten zu betrachtenden Attributs geschieht mittels \autoref{alg:auswahl-merkmal}.
 Hierdurch wird das Attribut mit dem höchsten normierten Informationsgewinn ($Gain$) ausgewählt.
 Mathematisch basiert diese Funktion auf der Gleichung,

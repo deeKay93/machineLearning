@@ -3,10 +3,23 @@
 
 
 \subsection{Ergebnis und Implementierung}
-\begin{itemize}
-    \item Klassifikation als Zahl gut -> Rangliste für Angebote
-    \item Verhältnisoptimiemrung hier eher schlechter - an sich gut
-    \item WEnn nur ja/nein gewünscht, könnte man Baum noch optimieren (Beispiel Kehrwoche)
-    \item Klassifikation an sich ziemlich gut
-    \item Baum macht Ergebnis sehr Greifbar (einfach zu interpretieren)
-\end{itemize}
+\todo[inline]{Bin mir nicht sicher, ob die subsection-Einteilung so Sinn macht...}
+
+Durch die Klassifikation eines Datensatzes werden Ergebnisse der Klassifikation untereinander vergleichbar.
+So würde der Kunde (anhand der Trainingsdaten) eine  \emph{schulnahe, unmöbelierte, 4-5-Zimmer-Wohnung in erreichbarer Kindergartennähe mit Badewanne} wahrscheinlicher als positiv bewerten,
+als eine \emph{schulnahe, unmöbelierte, 5-Zimmer-Wohung mit 71-80 Quadratmetern}.
+
+Die \emph{Verhältnisoptimierung} wirkt einer Überanpassung des Baumes entgegen.
+Zwar hat ein Mindestverhältnis von $1$ in den gegebenen Daten keinen Einfluss auf die Klassifikation der Testdaten und sogar einen negativen Einfluss auf die Trainingsdaten.
+Allerdings zeigt sich beim direkten Verlgeich der Bäume,
+dass durch das Verhältnis der Baum weniger tief und damit allgemeiner ist.
+
+Allerdings kann diese Optimierung auch dazu führen,
+dass alle Blattknoten eines Baumes das gleiche binäre Ergebnis liefern.
+Ist lediglich eine binäre Klassifikation gewünscht,
+so sollte der Baum nachträglich \enquote{gesäubert} werden,
+um die spätere Klassifikation zu erleichtern.
+
+Insgesamt zeigt die Implementierung und deren Ausführung mit den gegebenen Daten,
+dass in allen Fällen - mit Ausnahme von C2 - die Testdaten mit über $98\%$ erfolgreich klassifiziert wurden.
+Außerdem ist der \enquote{gedruckte} Baum für einen Menschen greifbar und einfach zu interpretieren.
