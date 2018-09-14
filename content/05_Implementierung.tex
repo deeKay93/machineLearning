@@ -114,27 +114,28 @@ Dann wird die Bestimmungsfunktoin des zu diesem Wert zugehörige Unterbaums aufg
 Dies geschieht rekursiv bis ein Blattknoten erreicht und damit der ermittelt ist.
 
 \subsection{Test und Ergebnisbewertung}
-Um den Algorithmus zu Testen und dessen Ergebnisse zu bewerten wird er in folgenden Konfigurationen ausgeführt:
+Um den Algorithmus zu Testen und dessen Ergebnisse zu bewerten wird er in verschiedenen Konfigurationen ausgeführt (siehe \autoref{tab:run-config}).
+
 
 \useunder{\uline}{\ul}{}
 \begin{table}[h]
     \begin{center}
         \begin{tabular}{|l|l|l|l|}
         \hline
-            {\ul \textbf{Nr.}} & {\ul \textbf{Trainingsdaten}} & {\ul \textbf{Testdaten}}      & {\ul \textbf{Verhältnis}} \\
+                               & {\ul \textbf{Trainingsdaten}} & {\ul \textbf{Testdaten}}      & {\ul \textbf{Verhältnis}} \\
             \hline
-            1                  & \dots 5\_K\_teach.csv & \dots 4\_K.csv        & $0$ \\
+            T0                  & \dots 5\_K\_teach.csv & \dots 4\_K.csv        & $0$ \\
             \hline
-            2                  & \dots 5\_K\_teach.csv & \dots 4\_K.csv        & $1$ \\
+            T1                  & \dots 5\_K\_teach.csv & \dots 4\_K.csv        & $1$ \\
             \hline
-            3                  & \dots 5\_K\_teach.csv & \dots 4\_K.csv        & $2$ \\
+            T2                  & \dots 5\_K\_teach.csv & \dots 4\_K.csv        & $2$ \\
             \hline
             \hline
-            4                  & \dots 4\_K.csv        & \dots 5\_K\_teach.csv & $0$ \\
+            C0                  & \dots 4\_K.csv        & \dots 5\_K\_teach.csv & $0$ \\
             \hline
-            5                  & \dots 4\_K.csv        & \dots 5\_K\_teach.csv & $1$ \\
+            C1                  & \dots 4\_K.csv        & \dots 5\_K\_teach.csv & $1$ \\
             \hline
-            6                  & \dots 4\_K.csv        & \dots 5\_K\_teach.csv & $2$ \\
+            C2                  & \dots 4\_K.csv        & \dots 5\_K\_teach.csv & $2$ \\
             \hline
         \end{tabular}
         \caption{Konfigurationen zur Ausführung}
@@ -150,48 +151,94 @@ Da das Ergebnis der Klassifikation eine Zahl zwischen $0$ und $1$ ist,
 gilt jeder Wert $\geq 0.5$ als positive und jeder Wert $< 0.5$ als negative Klassifikation.
 Es ergeben sich die in \autoref{tab:run-results} dargestellten Ergebnisse:
 
-\todoask[inline]{
-    Problem: Wenn Gültig $\geq 0.5$ ist, dann sind die Ergebnisse von 1 und 2 Gleich.\\
-    Wenn Gültig nur $> 0.5$ ist, dann ist 1 mit 98,8\% schlechter (aber mann würde Werte mit 0.5 nie als "richtig" werten)\\
-    Was ist besser?
-}
 \useunder{\uline}{\ul}{}
 \begin{table}[h]
     \begin{center}
         \begin{tabular}{|l|l|l|l|}
         \hline
-            {\ul \textbf{Nr.}} & {\ul \textbf{Ergebnis Trainingsdaten}} & {\ul \textbf{Ergebnis Testdaten}} \\
+                                & {\ul \textbf{Ergebnis Trainingsdaten}} & {\ul \textbf{Ergebnis Testdaten}} \\
             \hline
-            1                  & $100\%$                                & $\approx 98,901\%$                  \\
+            T0                  & $100\%$                                & $\approx 98,901\%$                  \\
             \hline
-            2                  & $99,75\%$                              & $\approx 98,901\%$                  \\
+            T1                  & $99,75\%$                              & $\approx 98,901\%$                  \\
             \hline
-            3                  & $99\%$                                 & $\approx 98,601\%$                  \\
+            T2                  & $99\%$                                 & $\approx 98,601\%$                  \\
             \hline
             \hline
-            4                  & $100\%$                                & $98,5\%$                  \\
+            C0                  & $100\%$                                & $98,5\%$                  \\
             \hline
-            5                  & $100\%$                                & $98,5\%$                  \\
+            C1                  & $100\%$                                & $98,5\%$                  \\
             \hline
-            6                  & $\approx 99,4\%$                       & $97,5\%$                  \\
+            C2                  & $\approx 99,4\%$                       & $97,5\%$                  \\
             \hline
         \end{tabular}
-        \caption{Konfigurationen zur Ausführung}
+        \caption{Anteil korrekt klasifizerter Datensätze}
         \label{tab:run-results}
     \end{center}
 \end{table}
 
+Die Durchläufe mit dem Mindestverhältnis $2$ (T2, C2) scheiden im Vergleich sowohl bei den Test- als auch bei den Trainingsdaten am schlechtsten ab.
+Bei einem Mindestverhältnis von $0$ (T0, C0) ist das Abbruchkriterium quasi nicht vorhanden.
+In diesem Fall werden die Trainingsdaten exakt nachgebildet,
+was bedeutet, dass alle Trainingsdaten korrekt klassifiziert werden.
 
-\todo[inline]{Beschreibung das Verhältnis 1 am besten ist }
+Im Fall der Konfiguration 2 mit einem Mindestverhältnis von $1$ (T1, C1) werden verglichen mit Konfiguration 1 in den Testdaten $0.25\%$ weniger korrekt klassifiziert.
+Der Anteil der korrekt klassifizierten Testdaten bleibt jedoch gleich.
+Daraus lässt sich schließen,
+dass der Baum allgemeiner ist was einern Überanpassung entgegenwirkt.
 
-Für Fall 2 ergibt sich der in \autoref{appendix:baum-training} dargestellte Baum.
+Die Entscheidungsbäume von T0 und T1 unterscheiden sich in in dem Unterbaum
+\emph{Schule (nah) -> Moebeliert (nein) -> Zimmerzahl (4) -> Kindergarten (nah) -> Kehrwoche (ja)}.
+\autoref{tab:diff} zeigt diesen Unterschied.
+
+\useunder{\uline}{\ul}{}
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{|p{6cm}|p{6cm}|}
+        \hline
+            {\ul \textbf{T0}}   & {\ul \textbf{T1}} \\
+            \hline
+            {\lstinputlisting[
+                language={},
+                numbers=none,
+                backgroundcolor=\color{white},
+                frame=none
+            ]{unterbaum_t0.txt}}
+            &
+            {\lstinputlisting[
+                language={},
+                numbers=none,
+                backgroundcolor=\color{white},
+                frame=none
+            ]{unterbaum_t1.txt}}
+            \\
+            \hline
+        \end{tabular}
+        \caption{Unterschiede bei Mindestverhältnis von $0$ und $1$}
+        \label{tab:diff}
+    \end{center}
+\end{table}
+
+Betrachtet man zusätzlich die eigentlichen Trainingsdaten so finden sich lediglich zwei Datensätze.
+Diese unterscheiden sich in den Attributen \emph{Stockwerk, Heizung, S-Bahn, Miete, Nebenkosten, Alter, Lage, Entfernung, Kaution, Bad, Balkon} und \emph{Quadratmeter}
+Die Auswahl von \emph{Stockwerk} in T0, liegt also nicht daran,
+dass es das beste Merkmal ist, sondern an der Reihenfolge der Merkmale.
+Mit lediglich zwei Datensätzen, welche sich in so vielen Attributen voneinander unterscheiden,
+kann nicht mit Sicheheit bestimmt werden welches Attribut ausschlaggebend für die Entscheidung des Kunden ist.
+Um eine Überanpassung zu verhindern ist es daher sinnvoll diesen Unterbaum nicht weiter zu verzweigen.
+
+\todoask[inline]{Ich bin mir mit der Reihenfolge nicht ganz sicher...\\
+Erst Genau den Baum Beschreiben, oder erst den Unterschied zwische T0 \& T1}
+
+
+Für T1 ergibt sich der in \autoref{appendix:baum-training} dargestellte Baum.
 Er zeigt folgende Eigenschaften der Trainingsdaten:
 \begin{itemize}
     \item Für die Kunden ist es unumgänglich, dass die Wohnung in Schulnähe und nicht möbeliert ist.
     \item Es kommen nur Wohnungen zwischen 3-4 und 5 Zimmern in Frage.
     \item Bei 3-4 bis 4-5 Zimmern darf die Wohnung nicht zu weit von einem Kindergarten entfernt sein.
     \item Ist eine 4-5 Zimmerwohnung in erreichbarer Nähe eines Kindergartens, so sollte sie nicht nur ein Waschbecken enthalten.
-    \item Bei 5 Zimmern darf die Wohnung zwischen nicht über 120 Quadratmeter groß sein.
+    \item Bei 5 Zimmern darf die Wohnung nicht über 120 Quadratmeter groß sein.
 \end{itemize}
 
 Aus diesen Eigenschaften lässt sich Interpretieren,
@@ -199,7 +246,7 @@ dass der Kunde eine Familie mit Schul- und wahrscheinlich Kindergartenkind(ern) 
 Hauptindizien hierfür sind, die Nähe zu Schule und Kingergarten, sowie die Zimmerzahl.
 
 
-Betrachtet man den Baum von Fall 5 in \autoref{appendix:baum-test},
+Betrachtet man den Baum von C1 in \autoref{appendix:baum-test},
 so finden sich diese Merkmale weitestgehen wieder.
 Auch hier ist die Nähe zur Schule das wichtigste Merkmal.
 Allerdings folgt dann die Zimmerzahl (wieder mit 3-4 bis 5 Zimmern).
