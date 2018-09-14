@@ -2,5 +2,87 @@
 \begin{itemize}
     \item Nur Analyse Teach weil dieser für das Training verwendet wird
     \item Korrelationsanalyse
-    \item Gesamtverteilung Positiv Negativ 
 \end{itemize}
+
+Um Konzepte für lernende Systeme aufzubauen, ist es zunächst sinnvoll sich mit 
+dem gegebenen Datensatz auseinander zu setzen. 
+Gegeben sind 22 Attribute die jeweils eine Eigenschaft einer Wohnung darstellen. 
+Die Attribute sind in verschiedenen Formen angegeben: 
+\begin{itemize}
+    \item Boolean-Werte: Hausmeister, Garage, Aufzug, Balkon, Terrasse, Kehrwoche, Möbliert
+    \item Text-Werte: Heizung, Lage, Bad
+    \item Int-Bereiche: Zimmer, Stockwerk, Miete, Nebenkosten, Alter, Entfernung, Kaution, Quadratmeter
+    \item Kategorien: Kindergarten, Schule, S-Bahn, Küche
+\end{itemize}
+
+Der Datensatz zum Trainieren und Aufbauen von lernenden System erhält zusätzlich 
+ein Bewertungsattribut $k$. 
+Auffällig ist, dass bei 400 Einträgen lediglich 68 positive Bewertungen gegeben wurden. 
+Dies entspricht 17\%. 
+
+Da für den Aufbau der Trainingdatensatz verwendet wird, wird dieser mithilfe einer Korrelationsmatrix 
+genauer analysiert. Diese zeigt die Abhängigkeiten zwischen den Eigenschaften. 
+
+\autoref{tab:korr1} ist einen Ausschnitt aus der Korrelationsmatrix der eine besonders starke Korrelation aufzeigt. \\
+Auffällig ist, dass zwischen Miete, Zimmerzahl und Quadratmeter ein fast vollständig linearer Zusammenhang
+besteht. Auch zur Kaution besteht ein mittelstarker positiver linearer Zusammenhang.
+
+\useunder{\uline}{\ul}{}
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{|l|l|l|l|l|}
+            \hline
+            {\ul \textbf{}}             & {\ul \textbf{Zimmerzahl}} & {\ul \textbf{Miete}} & {\ul \textbf{Nebenkosten}} & {\ul \textbf{Kaution}} \\ \hline
+            {\ul \textbf{Zimmerzahl}}   & 1                         &                      &                            &                        \\ \hline
+            {\ul \textbf{Miete}}        & 0,96                      & 1                    &                            &                        \\ \hline
+            {\ul \textbf{Nebenkosten}}  & 0,94                      & 0,94                 & 1                          &                        \\ \hline
+            {\ul \textbf{Kaution}}      & 0,58                      & 0,58                 & 0,58                       & 1                      \\ \hline
+            {\ul \textbf{Quadratmeter}} & 0,98                      & 0,96                 & 0,94                       & 0,58                   \\ \hline
+        \end{tabular}
+        \caption{Korrelationsmatrix Zimmerzahl, Miete, Nebenkosten, Kaution}
+        \label{tab:korr1}
+    \end{center}
+\end{table}
+
+Auch der Ausschnitt den \autoref{tab:korr2} zeigt einen linearen Zusammenhang zwischen Eigenschaften. Die Korrelationskoeffizienten 
+zeigen hier einen mittelstarken linearen Zusammenhang zwischen Stockwerk, Balkon und Aufzug. 
+Auch die Kehrwoche woche ist mit einem schwachen positiv linearen Zusammenhang zum Stockwerk dargestellt. 
+
+\useunder{\uline}{\ul}{}
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{|l|l|l|l|}
+        \hline
+            {\ul \textbf{}}              & {\ul \textbf{Stockwerk}} & {\ul \textbf{Kehrwoche}}  & {\ul \textbf{Balkon}} \\ \hline
+            {\ul \textbf{Stockwerk}}     & 1                        &                           &                       \\ \hline
+            {\ul \textbf{Kehrwoche}}     & 0,31                     & 1                         &                       \\ \hline
+            {\ul \textbf{Balkon}}        & 0,53                     & 0,13                      & 1                     \\ \hline
+            {\ul \textbf{Aufzug}}        & 0,67                     & 0,23                      & 0,43                  \\ \hline
+        \end{tabular}
+        \caption{Korrelationsmatrix Stockwerk, Kehrwoche, Balkon, Aufzug}
+        \label{tab:korr2}
+    \end{center}
+\end{table}
+ 
+Wird auch das Bewertungsattribut in die Korrelationsmatrix eingebunden, können bereits erste Vermutungen dazu getroffen werden, 
+welche Attribute besonders aussagekräftig, beziehungsweise welche weniger relevant für die Bewertung einer Wohnung sind. 
+\autoref{tab:korrBewertung} zeigt die Attribute, die die stärkste Korrelation zur Bewertung besitzen.
+\useunder{\uline}{\ul}{}
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{|l|l|}
+            \hline
+            {\ul \textbf{}}              & {\ul \textbf{Bewertung}} \\ \hline
+            {\ul \textbf{Schule}}        & 0,51                        \\ \hline
+            {\ul \textbf{Zimmerzahl}}    & 0,23                     \\ \hline
+            {\ul \textbf{Kindergarten}}  & 0,23                     \\ \hline
+            {\ul \textbf{Nebenkosten}}   & 0,19                     \\ \hline
+        \end{tabular}
+        \caption{Ausschnitt 2 Korrelationsmatrix}
+        \label{tab:korrBewertung}
+    \end{center}
+\end{table}
+
+Die Schule ist mit einem mittelstarken linearen Zusammenhang sehr aussagekräftig für die Bewertung.
+Diese Aussage soll mit den folgenden Programentwürfen und der Implementierung des Entscheidungsbaumes
+überprüft werden. 

@@ -1,88 +1,6 @@
 \section{Neuronales Netz}\label{sec:nn}
-\subsection{Einleitung}
-Um ein Neuronales Netz zu erstellen, dass die Kundenpräferenzen in einer Wohnungsbörse erlernt,
-sind zunächst einige Vorverarbeitungsschritte notwendig.
-\begin{itemize}
-    \item Analysieren des Datensatzes, um aussagekräftige Eingabewerte für das Neuronale Netz zu
-            finden.
-    \item Umwandlung des Datensatzes in numerische Werte, damit diese vom Netz konsumierbar sind.
-    \item Normierung des Datensatzes um eine Vorgewichtung von Attributen zu vermeiden.
-    \item Entscheidung über die Struktur des Netzes, Anzahl der Neuronen und Schichten, und Auswahl 
-            eines geeigneten Lernverfahrens.
-\end{itemize}
-Diese Schritte werden in den folgenden Abschnitten erläutert. 
 
-\subsection{Analysieren des Datensatzes}
-Ein Neuronales Netz lernt aus Informationen nicht aus den Daten. Aus diesem Grund ist es wichtig, 
-die Informationen die das Netz als Eingabe erhält möglichst genau zu spezifizieren. Es ist 
-sinnvoller wenige aber sehr aussagekräftige Eingabewerte für das Neuronale Netz zu definieren.
-\subsubsection{Korrelation der Eingabewerte} 
-Eingaben die eine hohe Korrelation besitzen können möglicherweise in einem aussagekräftigen Attribute
-zusammengefasst werden. \\
-\autoref{tab:korr1} und \autoref{tab:korr2} zeigen Ausschnitte aus der Korrelationsmatrix aller 
-gegebenen Attribute. \\
-\autoref{tab:korr1} zeigt einen Zusammenhang, der den Erwartungen entspricht. \textit{Eine Wohnung die größer ist, kostet auch mehr}.
-Eine Möglichkeit diesen Zusammenhang darzustellen, ist das Attribut \textit{Kosten pro Quadratmeter}. Durch dieses Attribut
-könnten die verschiedenen Wohnungen unabhängig der Größe verglichen werden. Der Zusammenhang zwischen \textit{Miete, Kaution und Nebenkosten}
-lässt sich in einem Attribut \textit{Gesamtkosten} zusammenfassen.\\
-Auch der Ausschnitt den \autoref{tab:korr2} zeigt, ist nachvollziehbar. Jedoch wird durch die berechneten Korrelationen sichtbar, 
-dass Beispielsweise die \textit{Kehrwoche} nicht sehr stark mit dem \textit{Balkon} korreliert. Selbst die Korrelation zwischen
-\textit{Stockwerk} und \textit{Aufzug} ist nicht sehr stark. Aus diesem Grund bietet es sich hier nicht an, ein zusammenfassende 
-Eingabe zu verwenden.
 
-\useunder{\uline}{\ul}{}
-\begin{table}[h]
-    \begin{center}
-        \begin{tabular}{|l|l|l|l|l|}
-            \hline
-            {\ul \textbf{}}             & {\ul \textbf{Zimmerzahl}} & {\ul \textbf{Miete}} & {\ul \textbf{Nebenkosten}} & {\ul \textbf{Kaution}} \\ \hline
-            {\ul \textbf{Zimmerzahl}}   & 1                         &                      &                            &                        \\ \hline
-            {\ul \textbf{Miete}}        & 0,96                      & 1                    &                            &                        \\ \hline
-            {\ul \textbf{Nebenkosten}}  & 0,94                      & 0,94                 & 1                          &                        \\ \hline
-            {\ul \textbf{Kaution}}      & 0,58                      & 0,58                 & 0,58                       & 1                      \\ \hline
-            {\ul \textbf{Quadratmeter}} & 0,98                      & 0,96                 & 0,94                       & 0,58                   \\ \hline
-        \end{tabular}
-        \caption{Ausschnitt 1 Korrelationsmatrix}
-        \label{tab:korr1}
-    \end{center}
-\end{table}
-
-\useunder{\uline}{\ul}{}
-\begin{table}[h]
-    \begin{center}
-        \begin{tabular}{|l|l|l|l|}
-        \hline
-            {\ul \textbf{}}              & {\ul \textbf{Stockwerk}} & {\ul \textbf{Kehrwoche}}  & {\ul \textbf{Balkon}} \\ \hline
-            {\ul \textbf{Stockwerk}}     & 1                        &                           &                       \\ \hline
-            {\ul \textbf{Kehrwoche}}     & 0,31                     & 1                         &                       \\ \hline
-            {\ul \textbf{Balkon}}        & 0,53                     & 0,13                      & 1                     \\ \hline
-            {\ul \textbf{Aufzug}}        & 0,67                     & 0,23                      & 0,43                  \\ \hline
-        \end{tabular}
-        \caption{Ausschnitt 2 Korrelationsmatrix}
-        \label{tab:korr2}
-    \end{center}
-\end{table}
- 
-\subsubsection{Aussagekraft der Attribute}
-Wird auch das Bewertungsattribut in die Korrelationsmatrix eingebunden, können bereits erste Vermutungen dazu getroffen werden, 
-welche Attribute besonders aussagekräftig, beziehungsweise welche weniger relevant für die Bewertung der Wohnung sind. 
-\autoref{tab:korrBewertung} zeigt die Attribute, die die stärkste Korrelation zur Bewertung besitzen.
-\useunder{\uline}{\ul}{}
-\begin{table}[h]
-    \begin{center}
-        \begin{tabular}{|l|l|}
-            \hline
-            {\ul \textbf{}}              & {\ul \textbf{Bewertung}} \\ \hline
-            {\ul \textbf{Schule}}        & 0,51                        \\ \hline
-            {\ul \textbf{Zimmerzahl}}    & 0,23                     \\ \hline
-            {\ul \textbf{Kindergarten}}  & 0,23                     \\ \hline
-            {\ul \textbf{Nebenkosten}}   & 0,19                     \\ \hline
-        \end{tabular}
-        \caption{Ausschnitt 2 Korrelationsmatrix}
-        \label{tab:korrBewertung}
-    \end{center}
-\end{table}
-Zu einem ähnlichen, aber detaillierterem Ergebnis, kommt auch der Entscheidungsbaum. 
 
 \subsubsection{Ergebnis der Analyse}
 Attribute mit hoher Korrelation untereinander bzw. mit der Bewertung:
@@ -98,6 +16,20 @@ Attribute mit hoher Korrelation untereinander bzw. mit der Bewertung:
 Ausgeschlossene Attribute mit Korrelationswerten unter 0,1 beziehungsweise -0,1 sind:\\
 Stockwerk, Heizung, Hausmeister, S-Bahn, Alter, Aufzug, Lage, Küche, Bad, Balkon, Terrasse, Kehrwoche, 
 und Garage.
+
+
+\subsection{Einleitung}
+Um ein Neuronales Netz zu erstellen, dass die Kundenpräferenzen in einer Wohnungsbörse erlernt,
+sind zunächst einige Vorverarbeitungsschritte notwendig.
+\begin{itemize}
+    \item Analysieren des Datensatzes, um aussagekräftige Eingabewerte für das Neuronale Netz zu
+            finden.
+    \item Umwandlung des Datensatzes in numerische Werte, damit diese vom Netz konsumierbar sind.
+    \item Normierung des Datensatzes um eine Vorgewichtung von Attributen zu vermeiden.
+    \item Entscheidung über die Struktur des Netzes, Anzahl der Neuronen und Schichten, und Auswahl 
+            eines geeigneten Lernverfahrens.
+\end{itemize}
+Diese Schritte werden in den folgenden Abschnitten erläutert. 
 
 \subsection{Umwandlung der Daten in numerische Werte}
 Im nächsten Schritt müssen alle Werte in numerische Werte umgewandelt werden. 
