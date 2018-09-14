@@ -188,7 +188,7 @@ Daraus lässt sich schließen,
 dass der Baum allgemeiner ist was einern Überanpassung entgegenwirkt.
 
 Die Entscheidungsbäume von T0 und T1 unterscheiden sich in in dem Unterbaum
-\emph{Schule (nah) -> Moebeliert (nein) -> Zimmerzahl (4) -> Kindergarten (nah) -> Kehrwoche (ja)}.
+\emph{Schule (nah)} $\rightarrow$ \emph{Moebeliert (nein)} $\rightarrow$ \emph{Zimmerzahl (4)} $\rightarrow$ \emph{Kindergarten (nah)} $\rightarrow$ \emph{Kehrwoche (ja)}.
 \autoref{tab:diff} zeigt diesen Unterschied.
 
 \useunder{\uline}{\ul}{}
@@ -219,17 +219,13 @@ Die Entscheidungsbäume von T0 und T1 unterscheiden sich in in dem Unterbaum
     \end{center}
 \end{table}
 
-Betrachtet man zusätzlich die eigentlichen Trainingsdaten so finden sich lediglich zwei Datensätze.
+Betrachtet man die eigentlichen Trainingsdaten so finden sich lediglich zwei Datensätze.
 Diese unterscheiden sich in den Attributen \emph{Stockwerk, Heizung, S-Bahn, Miete, Nebenkosten, Alter, Lage, Entfernung, Kaution, Bad, Balkon} und \emph{Quadratmeter}
 Die Auswahl von \emph{Stockwerk} in T0, liegt also nicht daran,
 dass es das beste Merkmal ist, sondern an der Reihenfolge der Merkmale.
 Mit lediglich zwei Datensätzen, welche sich in so vielen Attributen voneinander unterscheiden,
 kann nicht mit Sicheheit bestimmt werden welches Attribut ausschlaggebend für die Entscheidung des Kunden ist.
 Um eine Überanpassung zu verhindern ist es daher sinnvoll diesen Unterbaum nicht weiter zu verzweigen.
-
-\todoask[inline]{Ich bin mir mit der Reihenfolge nicht ganz sicher...\\
-Erst Genau den Baum Beschreiben, oder erst den Unterschied zwische T0 \& T1}
-
 
 Für T1 ergibt sich der in \autoref{appendix:baum-training} dargestellte Baum.
 Er zeigt folgende Eigenschaften der Trainingsdaten:
