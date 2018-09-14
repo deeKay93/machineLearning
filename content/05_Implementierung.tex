@@ -114,3 +114,95 @@ Dann wird die Bestimmungsfunktoin des zu diesem Wert zugehörige Unterbaums aufg
 Dies geschieht rekursiv bis ein Blattknoten erreicht und damit der ermittelt ist.
 
 \subsection{Test und Ergebnisbewertung}
+Um den Algorithmus zu Testen und dessen Ergebnisse zu bewerten wird er in folgenden Konfigurationen ausgeführt:
+
+\useunder{\uline}{\ul}{}
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{|l|l|l|l|}
+        \hline
+            {\ul \textbf{Nr.}} & {\ul \textbf{Trainingsdaten}} & {\ul \textbf{Testdaten}}      & {\ul \textbf{Verhältnis}} \\
+            \hline
+            1                  & \dots 5\_K\_teach.csv & \dots 4\_K.csv        & $0$ \\
+            \hline
+            2                  & \dots 5\_K\_teach.csv & \dots 4\_K.csv        & $1$ \\
+            \hline
+            3                  & \dots 5\_K\_teach.csv & \dots 4\_K.csv        & $2$ \\
+            \hline
+            \hline
+            4                  & \dots 4\_K.csv        & \dots 5\_K\_teach.csv & $0$ \\
+            \hline
+            5                  & \dots 4\_K.csv        & \dots 5\_K\_teach.csv & $1$ \\
+            \hline
+            6                  & \dots 4\_K.csv        & \dots 5\_K\_teach.csv & $2$ \\
+            \hline
+        \end{tabular}
+        \caption{Konfigurationen zur Ausführung}
+        \label{tab:run-config}
+    \end{center}
+\end{table}
+
+Die Genauigkeit der Klassifikation der jeweiligen Bäume wird bestimmt,
+indem sowohl für die Trainings- als auch für die Testdaten eine Klassifikation ermittelt wird.
+Die Ist-Klassifikation wird dann mit der Soll-Klassifikation verglichen.
+Als Ergebnis wird der Anteil der korrekt Klassifizierten Datensätze herausgegeben.
+Da das Ergebnis der Klassifikation eine Zahl zwischen $0$ und $1$ ist,
+gilt jeder Wert $\geq 0.5$ als positive und jeder Wert $< 0.5$ als negative Klassifikation.
+Es ergeben sich die in \autoref{tab:run-results} dargestellten Ergebnisse:
+
+\todoask[inline]{
+    Problem: Wenn Gültig $\geq 0.5$ ist, dann sind die Ergebnisse von 1 und 2 Gleich.\\
+    Wenn Gültig nur $> 0.5$ ist, dann ist 1 mit 98,8\% schlechter (aber mann würde Werte mit 0.5 nie als "richtig" werten)\\
+    Was ist besser?
+}
+\useunder{\uline}{\ul}{}
+\begin{table}[h]
+    \begin{center}
+        \begin{tabular}{|l|l|l|l|}
+        \hline
+            {\ul \textbf{Nr.}} & {\ul \textbf{Ergebnis Trainingsdaten}} & {\ul \textbf{Ergebnis Testdaten}} \\
+            \hline
+            1                  & $100\%$                                & $\approx 98,901\%$                  \\
+            \hline
+            2                  & $99,75\%$                              & $\approx 98,901\%$                  \\
+            \hline
+            3                  & $99\%$                                 & $\approx 98,601\%$                  \\
+            \hline
+            \hline
+            4                  & $100\%$                                & $98,5\%$                  \\
+            \hline
+            5                  & $100\%$                                & $98,5\%$                  \\
+            \hline
+            6                  & $\approx 99,4\%$                       & $97,5\%$                  \\
+            \hline
+        \end{tabular}
+        \caption{Konfigurationen zur Ausführung}
+        \label{tab:run-results}
+    \end{center}
+\end{table}
+
+
+\todo[inline]{Beschreibung das Verhältnis 1 am besten ist }
+
+Für Fall 2 ergibt sich der in \autoref{appendix:baum-training} dargestellte Baum.
+Er zeigt folgende Eigenschaften der Trainingsdaten:
+\begin{itemize}
+    \item Für die Kunden ist es unumgänglich, dass die Wohnung in Schulnähe und nicht möbeliert ist.
+    \item Es kommen nur Wohnungen zwischen 3-4 und 5 Zimmern in Frage.
+    \item Bei 3-4 bis 4-5 Zimmern darf die Wohnung nicht zu weit von einem Kindergarten entfernt sein.
+    \item Ist eine 4-5 Zimmerwohnung in erreichbarer Nähe eines Kindergartens, so sollte sie nicht nur ein Waschbecken enthalten.
+    \item Bei 5 Zimmern darf die Wohnung zwischen nicht über 120 Quadratmeter groß sein.
+\end{itemize}
+
+Aus diesen Eigenschaften lässt sich Interpretieren,
+dass der Kunde eine Familie mit Schul- und wahrscheinlich Kindergartenkind(ern) ist.
+Hauptindizien hierfür sind, die Nähe zu Schule und Kingergarten, sowie die Zimmerzahl.
+
+
+Betrachtet man den Baum von Fall 5 in \autoref{appendix:baum-test},
+so finden sich diese Merkmale weitestgehen wieder.
+Auch hier ist die Nähe zur Schule das wichtigste Merkmal.
+Allerdings folgt dann die Zimmerzahl (wieder mit 3-4 bis 5 Zimmern).
+Erst dann folgen - je nach Zimmerzahl in unterschiedlichen Reihenfolgen - die Kindergartennähe,
+das Bad, und die Möbelierung.
+Interesanterweiße kommen in zwei Fällen die Attribute Kaution beziehungweise die Art der Heizung hinzu.
