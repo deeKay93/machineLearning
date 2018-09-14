@@ -2,7 +2,6 @@
 \section{Entscheidungsbaum}\label{sec:entscheidungsbaum}
 \todoask[inline]{Vorteile Entscheidungsbaum? / Einleitung?}
 
-\subsection{Konzept}
 Grundlegend basiert der Algorithmus zum Erzeugen des Entscheidungsbaums auf dem,
 in der Vorlesung vorgestellten. An verschiedenen Stellen wird der Algorithmus optimiert.
 Der finale Algorithmus ist in \autoref{alg:baum-erzeugen} dargestellt.
@@ -14,8 +13,12 @@ Besonderer Augenmerk liegt hierbei auf den Optimierungen, welche im Folgenden be
 
     \item[\autoref{alg:baum-erzeugen-b}] Für den Fall, dass die Beispielmenge zwei (oder mehr) identische Datensätze mit unterschiedlicher Klassifikation enthält,
     jedoch die Attributmenge leer ist, wird der Anteil der positiven Klassifikationen als Wert für den entsprechenden Knoten gesetzt.
-    \item[\autoref{alg:baum-erzeugen-c} \& \autoref{alg:baum-erzeugen-d}] Um eine zu starke Spezialisierung auf die Trainingsdaten zu verhindern, kann eine \textit{Genauigkeit} angegeben werden.
-    Ist für eine Beispielmenge diese Genauigkeit erreicht so wird diese Beispielmenge nicht weiter unterteilt.
+    \item[\autoref{alg:baum-erzeugen-c}] Enthält die Beispielmenge nur noch positive oder nur noch negative Ergebnisse,
+        so wird der entsprechende Wert als Klassifikation für den Knoten gesetzt.
+    \item[\autoref{alg:baum-erzeugen-d}] Um zu vermeiden, dass der Baum zu stark auf die Trainingsdaten spezialisiert,
+        wird das Verhältnis zwischen Beispielmenge und den Werten des Attributs geprüft.
+        Ist dieses Verhältnis kleiner, als der eingegebene Parameter, so endet die Erstellung des Baumes.
+
 \end{description}
 
 \begin{algorithm}
@@ -23,7 +26,7 @@ Besonderer Augenmerk liegt hierbei auf den Optimierungen, welche im Folgenden be
     \label{alg:baum-erzeugen}
    % \underline{function Euclid} $(a,b)$\;
     \Input{Beispielmenge $B$, Attributmenge $A$,\\
-            Defaultwahrscheinlichkeit $d$ (in $\%$), Genauigkeit $g$}
+            Defaultwahrscheinlichkeit $d$ (in $\%$), Verhältnis $v$}
     \Output{Entscheidungsbaum $E$}
     \eIf{$B = \emptyset$}{ \label{alg:baum-erzeugen-a}
         Gib Knoten mit Wahrscheinlichkeit $d$ zurück\;
@@ -31,19 +34,24 @@ Besonderer Augenmerk liegt hierbei auf den Optimierungen, welche im Folgenden be
             Setze $p$ = Anteil von positiven Klassifikationen in $b$\;
             \eIf{\\
                 \hspace*{1.5em}$A = \emptyset$ {\normalfont oder} \label{alg:baum-erzeugen-b} \\
-                \hspace*{1.5em}$p \geq g$ {\normalfont oder} \label{alg:baum-erzeugen-c}\\
-                \hspace*{1.5em}$p \leq (1 - g)$ \label{alg:baum-erzeugen-d}
+                \hspace*{1.5em}$p = 1 $ {\normalfont oder} $p = 0$ \label{alg:baum-erzeugen-c}
              \\}{
                 Gib Knoten mit Wahrscheinlichkeit $p$ zurück\;
             }{
-                Wähle $a \in A$ \label{alg:baum-erzeugen-d}\;
-                Setze $A' = A \setminus \{a\}$\;
-                Initialisiere $N$ als Unterbäume mit Kanten $w \in Werte(a)$\;
-                \ForEach{$w_i \in Werte(a)$}{
-                    Setze $B_i = \left\{b \in B | b.a = w_i\right\}$\;
-                    Setze $N_{w_i} = Entscheidungsbaum(B_i, A', p, g)$\;
+                Wähle $a \in A$\;
+                \eIf{
+                    $\frac{\vert B \vert}{\vert Werte(a) \vert} < v$ \label{alg:baum-erzeugen-d}
+                }{
+                    Gib Knoten mit Wahrscheinlichkeit $p$ zurück\;
+                }{
+                    Setze $A' = A \setminus \{a\}$\;
+                    Initialisiere $N$ als Unterbäume mit Kanten $w \in Werte(a)$\;
+                    \ForEach{$w_i \in Werte(a)$}{
+                        Setze $B_i = \left\{b \in B | b.a = w_i\right\}$\;
+                        Setze $N_{w_i} = Entscheidungsbaum(B_i, A', p, v)$\;
+                    }
+                    Gib Baum mit Wurzelknoten $a$ und Unterbäumen $N$ zurück\;
                 }
-                Gib Baum mit Wurzelknoten $a$ und Unterbäumen $N$ zurück\;
             }
         }
 \end{algorithm}
@@ -70,119 +78,3 @@ welche in der Vorlesung vorgestellt wurde.
     }
     Gib $a$ zurück\;
 \end{algorithm}
-
-\subsection{Implementierung}
-
-Das Programm implementiert den zuvor beschriebenen Algorithmus in der Programmiersprache Java.
-Lediglich um Kommandozeilenparameter angenehmer einzupflegen wird eine Bibliothek verwendet.
-
-\subsubsection{Ausführen des Programms}
-\todoask[inline]{Anderer Dateiname?}
-Im Anhang an diese Dokument befindet sich die Datei \enquote{tree.jar}.
-Grundlegend kann das Programm, wie in \autoref{lst:jar-aufruf} gezeigt, aufgerufen werden.
-Erforderlich ist hierfür zumindest Java in der Version 8.
-
-\begin{lstlisting}[
-    caption=Einfacher Aufruf des Programms,
-    label=lst:jar-aufruf,
-    language=bash
-]
-java -jar tree.jar
-\end{lstlisting}
-
-Durch verschiedene Parameter kann das Programm beeinflusst werden:
-Die Parameter und ihre Standartwerte sind in folgdender Übersicht dargestellt.
-
-\begin{description}
-    \setlength\itemsep{-0.5em}
-    \item[\texttt{-{}-teach, -t}]
-        Datei, welche zum Trainieren genutzt wird\\
-        Standard: \texttt{Wohnungskartei\_Muster\_Master\_5\_K\_teach.csv}
-    \item[\texttt{-{}-check, -c}]
-        Datei, welche mit dem Baum geprüft wird\\
-        Standard: <leer>
-    \item[\texttt{-{}-print, -p}]
-        Wenn gesetzt, wird der Baum wie in \autoref{appendix:baum} dargestellt\\
-        Standard: false
-    \item[\texttt{-{}-default, -d}]
-        Initiale Defaultwahrscheinlichkeit\\
-        Standard: 0,5
-    \item[\texttt{-{}-accuracy, -a}]
-        Genauigkeit bei welcher die Konstruktion des Unterbaums gestoppt wird.\\
-        Standard: 1.0
-    \item[\texttt{-{}-use-saved-tree, -u}]
-        Wenn gesetzt wird der Baum aus der angegebenen Datei geladen und nicht neu erzeugt.\\
-        Standard: <leer>
-    \item[\texttt{-{}-save-tree, -s}]
-        Speichert den neu trainierten Baum in der angegebenen Datei.\\
-        Standard: <leer>
-    \item[\texttt{-{}-help}]
-        Gibt die Hilfe in der Kommandozeile aus
-\end{description}
-
-
-
-\subsubsection{Besondere Aspekte}
-\paragraph{Attribute}
-Alle verfügbaren Attribute werden als \lstinline[language=Java]{enum} modelliert.
-Jedes \lstinline[language=Java]{enum} gibt über die Funktion
-\lstinline[language=Java]{getWerte()} die möglichen Ausprägungen als Liste von Zeichenketter zurück.
-
-Auf diese Weise kann dass entsprechende Attribut as Parameter in Funktionsaufrufen übergeben werden und
-innerhalb diese Funktion kann -- falls notwendig -- auf die möglichen Attributswerte zugegriffen werden.
-
-\paragraph{Einlesen der Daten}
-Weitestgehend werden die Daten direkt eingelesen und in ein \emph{Datensatz}-Objekt überführt.
-Dieses Objekt enthält je ein Attribut für jedes der Merkmale und die Bewertung.
-Für das Merkmal \enquote{Heizung} und für die Bewertung sind jedoch Schritte zur Vorverarbeitung notwendig:
-
-Aus dem Zeichenketten \enquote{ja} und \enquote{nein} der Bewertung wird der entsprechende boolesche Wert ermittel.
-In der Attributsausprägung \enquote{Lueftungsheizung} enthält der Datensatz anstatt des \textit{ue} ein undefiniertes Zeichen.
-Dieses Problem wird dadurch gelöst, dass der Wert wie in \autoref{lst:heizung} angepasst wird.
-Zwar wäre auch eine einmalige Änderung der entsprechende Werte in der Beispieldatei möglich,
-die Programmzeile gestattet es aber auch, dass andere Dateien mit gleicher Formatierung bedenkenlos genutzt werden können.
-
-\begin{lstlisting}[
-    firstnumber=54,
-    stepnumber=54,
-    caption={Anpassen von \enquote{Heizung}},
-    label=lst:heizung,
-    language=Java
-]
-heizung = heizung.endsWith("ftungsheizung") ?
-                    "Lueftungsheizung" :
-                    heizung;
-\end{lstlisting}
-
-\paragraph{Datensatz}
-Ein Datensatz-Objekt enthält für jeden relevanten Merkmalstyp eine Zeichenkette mit entsprechenden Namen.
-Um dynamisch den Wert eines bestimmten Attributs zu erhalten kann dieses über die Funktion \lstinline[language=Java]{get()}
-in \autoref{lst:datensatz-get} erfragt werden.
-
-\lstinputlisting[
-    caption={\texttt{get}-Funktion des Datensatzes (gekürzt)},
-    label=lst:datensatz-get,
-    language=Java
-]{datensatz_get.java}
-
-Für alle \enquote{normalen} Attribute wird der entsprechende Wert des Datensatzes zurückgegben.
-Da die Bewertung ein boolescher Wert ist, die Funktion aber eine Zeichenkette zurückgeben muss,
-wird dieser Wert entsprechend in eine Konstante umgewandelt.
-
-\paragraph{Spezialisierung}
-Das vorliegende Programm ist vor alle durch die Attribute und den Datensatz stark auf den gegebenen Anwendungsfall spezialisiert.
-Theoretisch wäre es möglich ein Programm zu so konzipieren, dass es die Attribute und deren Wertemenge selbstständig aus den vorliegenden Daten extrahiert.
-Dies würde jedoch die Komplexität und damit die Fehleranfälligkeit des Programms deutlich erhöhen.
-
-\paragraph{Rekursionen}
-Zum Erstellen des Baumes, aber auch zu Evaulation eines Datensatzes und zum Darstellen des Baumes wird Rekursion genutzt.
-Beim Erstellen wird ein Attribut ausgewählt, und für jede Ausprägung ein Unterbaum nach gleiche Muster gebildet bis eine Enebedingung erreicht ist.
-Details hierzu sind in \autoref{alg:baum-erzeugen} dargestellt.
-
-Das \enquote{Ausdrucken} des Baums geschieht,
-indem erst die Daten des aktuellen Knotens un
-dann nach und nach die Daten der Unterbäume zu einer Zeichenkette hinzugefügt werden.
-
-Um den Wert eines neuen Datensatzes zu ermitteln wird ausgehend von der Wurzel in jedem Knoten der zugehörige Attributswert aus dem Datensatz ausgelesen.
-Dann wird die Bestimmungsfunktoin des zu diesem Wert zugehörige Unterbaums aufgerufen.
-Dies geschieht rekursiv bis ein Blattknoten erreicht und damit der ermittelt ist.
