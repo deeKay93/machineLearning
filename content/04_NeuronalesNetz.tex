@@ -1,4 +1,5 @@
 \section{Neuronales Netz}\label{sec:nn}
+\subsection{Vorverarbeitung der Daten}
 In der Analyse der Daten (siehe\autoref{sec:analyse}) wurde die Korrelation 
 der verschiedenen Eigenschaften von Wohnungen untersucht. Die dort gefundenen
 Zusammenhänge können nun verwendet werden, um die Eingaben für das Neuronale 
@@ -10,7 +11,7 @@ gegebenen Attribute verwendet sondern Attribute die eine hohe Korrelation besitz
 zusammengefasst und Attribute die einen geringen Einfluss auf die Bewertung haben
 nicht verwendet. \\
 Die Folgende Auflistung zeigt die Attribute, die verwendet werden: 
-\begin{itemize}
+\begin{itemize}\label{lst:Eigenschaften}
     \item \textbf{Kosten pro Quadratmeter:} Miete, Quadratmeter
     \item \textbf{Gesamtkosten:} Nebenkosten, Miete, Kaution
     \item \textbf{Kinderfreundlichkeit:} Schule, Kindergarten
@@ -28,7 +29,7 @@ Dieses Attribut löst die Korrelation zwischen Miete und der Anzahl der Quadratm
 stellt so eine aussagekräftigere Eigenschaft für die Bewertung des Preis-Leistungsverhältnisses dar.
 
 
-\subsection{Umwandlung der Daten in numerische Werte}
+\paragraph{Umwandlung der Daten in numerische Werte}
 Im nächsten Schritt müssen alle Werte in numerische Werte umgewandelt werden. 
 \begin{itemize}
     \item \textit{num-num}: Bei diesen Werten wird ganz einfach der Mittelwert gebildet. 
@@ -54,51 +55,92 @@ Berechnungen die durchgeführt werden müssen:
     Kinderfreundlichkeit = \frac{Schule + Kindergarten}{2}
 \end{equation}
 
-\subsection{Normierung der Daten}
+\paragraph{Normierung der Daten}
 Um eine Normierung der Daten durchzuführen müssen zunächst die Maximalwerte der 
 jeweiligen Attribute definiert werden. Die Werte werden anschließend auf Werte 
 zwischen 0 und 1 normiert. Dies ist notwendig, da eine Vorgewichtung der Attribute
 vermieden werden soll.
 
-\subsection{Initiale Gewichtung der Neuronen}
+\subsection{Netzstruktur}
+Das Netz soll aus $6$ Eingabewerten einen Ausgabewert berechnen. 
+\autoref{img:nnStruktur} zeigt die Struktur des Netzes zum Lösen 
+dieses Problems. 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=15cm]{NNStruktur.PNG}
+    \label{img:nnStruktur}
+    \caption{Struktur des Neuronalen Netzes}
+\end{figure}
+
+Die \textit{Input-Layer} besitzt $6$ Neuronen, dies entspricht der 
+Anzahl der Eigenschaften (siehe \autoref{lst:Eigenschaften}). 
+Die Anzahl der Neuronen in der \textit{Hidden-Layer} ergibt sich aus 
+$CountHidden = CountInput * 2$. Die \textit{Output-Layer} besitzt
+lediglich ein Neuron, dass die Bewertung der Wohnung angibt. 
+
+\paragraph{Initiale Gewichtung der Neuronen}
 Die initialen Gewichte für das Netz werden zufällig gesetzt. Diese werden in der Lernphase 
 mit hilfe einer Lernregel angepasst.
 
-\subsection{Netzstruktur}
-Das Netz soll aus $6$ Eingabewerten einen Ausgabewert berechnen. 
-
-\begin{figure}[h]
-	    \centering
-        \includegraphics[width=15cm]{NNStruktur.PNG}
-        \label{img:nnStruktur}
-        \caption{Struktur des Neuronalen Netzes}
-\end{figure}
-
-\begin{itemize}
-    \item Feed-Forward Netz
-\end{itemize}
-
-\subsection{Lernregel}
-Die Lernregel sorgt für die Anpassung der Gewichte. 
-
-\subsection{Transferfunktion}
-Die Transferfunktion wandelt die normierten Eingabewerte in die Ausgabe der einzelnen Neuronen um.
+\paragraph{Aktivierungsfunktion und Schwellwert}
+Die Aktivierungsfunktion eines Neurons gibt an, ab welchem Wert das Neuron das 
+Signal an die nächste Schicht weiterleitet. 
+Für diesen Anwendungsfall bietet sich eine Sigmoide-Funktion an, 
+da diese die Eigenschaft besitzt ab dem Schwellwert allmählich 
+Signale weiterzuleiten.\\
 
 \begin{equation}
     T_s(x) = \frac{1}{1+e^(\frac{x-S}{k})}
 \end{equation}
 
-\subsection{Arbeitsweise/Ablauf}
+Das bedeutet, bei einem Schwellwert von $0,5$, wird ein Signal weitergeleitet. 
+Allerdings erst bei einem Wert von $1$ ein maximales Signal. 
+ 
 
+\paragraph{Transferfunktion}
+Die Transferfunktion wandelt die normierten Eingabewerte in die Ausgabe der einzelnen Neuronen um.
+
+\paragraph{Lernregel}
+Die Lernregel sorgt für die Anpassung der Gewichte. Das hier gewählte 
+Verfahren ist das \textit{Backpropagation-Verfahren}. 
+Dieses Verfahren bietet sich an, da nach der Berechnung leicht der Netzfehler bestimmt werden kann. 
+Der Fehler wird anschließend zurück durch das Netz propagiert und die Gewichte
+werden angepasst. Die Fehlerbestimmung erfolgt schichtweiße,beginnent mit der Output-Layer, 
+da hier der erwartete Wert zur Verfügung steht. Wurden die Fehler von jeder 
+Schicht bestimmt, werden die Gewichte,angepasst. 
+Wie die Gewichte angepasst werden zeigt \autoref{eqn:gewichte}. 
+Hierbei wird das Gewicht des Neurons $j$ angepasst bei einer Eingabe, 
+von Neuron $i$.
+$\delta_j$ ist der Fehler des aktuellen Neurons, $x_i$ ist der Wert der von $i$ an $j$ weitergegeben wird.
+$\eta_i$ ist der Lernkoeffizient. 
+Dieser gibt an, wie stark die Gewichte angepasst werden und liegt zwischen 0 und 1.
+
+\begin{equation}
+    w_{ij}(t+1) = w_{ij}(t) + \eta * \delta_j*x_i
+    \label{eqn:gewichte}
+\end{equation}
+Bei einfachen Problemen kann der Lernkoeffizent 1 sein, da das hier 
+bearbeitete Problem weder besonders einfach allerdings auf der anderen Seite auch 
+nicht viele Schichten notwendig sind. Bietet es sich an einen Lernkoeffizent von 
+$0,7$ zu wählen. Dieser kann mit sinkendem Fehler verringert werden. 
+Damit die optimale Lösung nicht übersprungen wird.
+
+\subsection{Arbeitsweise/Ablauf}
+Die folgende Auflistung zeigt, den Gesamtablauf des Netzes während eines 
+Lernschrittes.
 \begin{enumerate}
     \item Initialisierung
     \item Berechnung der Aktivierung \textit{Hidden-Layer}
     \item Berechnung Ausgabe der \textit{Hidden-Layer} mithilfe der Transferfunktion
     \item Berechnung Aktivierung \textit{Output-Layer}
     \item Berechnung der Ausgabe durch die Transferfunktion.
+    \item Berechnung des Fehlers der \textit{Output-Layer}
+    \item Berechnung des Fehlers der \textit{Hidden-Layer}
+    \item Berechnung des Fehlers der \textit{Input-Layer}
+    \item Anpassung der Gewichte der \textit{Output-Layer}
+    \item Anpassung der Gewichte der \textit{Hidden-Layer}
+    \item Anpassung der Gewichte der \textit{Input-Layer}
 \end{enumerate}
-
-\subsection{Berechnung der Fehler}
 
 \subsection{Bibliothek Tensorflow zur Implementierung}
 Tensorflow ist eine Python-Bibliothek für verschiedene Anwendungen im Bereich Deep Learning. 
@@ -111,64 +153,3 @@ unterschieden.
 Die Bibliothek bietet neben dem generellen Konzept für Maschine Learning Anwendungen 
 viele weiter mathematische Funktionen. 
 \cite{tf:2018}
-
-\subsection{Konzept zur Implementierung mit Tensorflow}
-\subsubsection{Lernrate und Lernschritt}
-Tensorflow bietet verschiedene Verfahren für konstante und variable Lernraten. 
-Als Start für eine konstante Lernrate bietet sich der Wert 0,5 an. Jedoch bietet 
-die Implementierung einer variablen Lernrate einige Vorteile. Die Lernrate kann während 
-eines Lernschritts erhöht oder verringert werden. Dies steigert die Effizienz des Algorithmus. 
-\autoref{lst:nnVariableLernRate} zeigt die Implementierung mithilfe von Tensorflow. 
-Die Lernrate wird hier alle 100000 Schritt mit der Basis 0,96 erhöht. 
-
-\lstinputlisting[
-    float,
-    floatplacement=H,
-    caption=Implementierung einer variablen Lernrate,
-    label=lst:nnVariableLernRate,
-    language=Python
-]{nnVariableLernRate.py}
-
-Durch die Minimierung des \textit{global step} wird die Lernrate erhöht. 
-Die Definition des Lernschrittes ist in \autoref{lst:nnLernSchritt} dargestellt.
-Während jedem Lernschritt werden die Gewichte des Netzes optimiert.
-Dies wird mit einer Kostenfunktion ermittelt. 
-Die \textit{softmax cross entropy with logits} normiert zunächst die Werte auf Werte zwischen 0 und 1 und berechnet im 
-Anschluss den Fehler zwischen berechnetem Wert und gefordertem Wert.
-
-\lstinputlisting[
-    float,
-    floatplacement=H,
-    caption=Implementierung des Lernschrittes,
-    label=lst:nnLernSchritt,
-    language=Python
-]{nnLernschritt.py}
-
-\subsubsection{Initiale Gewichte}
-Die initialen Gewichte für das Netz werden zufällig gesetzt. Diese werden in der Lernphase 
-mit hilfe einer Kostenfunktion angepasst.
-
-\subsubsection{Aufbau des Perceptrons}
-Die Anzahl der Schichten wird anhand der Anzahl der Eingabewerte ermittelt. 
-Durch die Reduzierung der Eingabeattribute in der Vorverarbeitung sind nun lediglich 6 Neuronen in 
-der Eingabe-Schicht notwendig. Eine Handregel besagt die Anzahl der versteckten Schichten sollte mit
-$Anzahl Hidden Layer = Eingabeneuronen/2$ berechnet werden. Demnach sind 3 versteckte Schichten notwendig. 
-Die Ausgabe des Netzes soll das Attribut \textit{Bewertung} sein. Demnach enthält die 
-Ausgabe-Schicht lediglich ein Neuron.\\
-\autoref{lst:nnModel} zeigt die Implementierung eines solchen Perceptrons. Die \textit{matmul} Funktion 
-berechnet hierbei eine Matrixmultiplikation zwischen vorhergehender Schicht, Gewichten dieser Schicht und der Neigung dieser Schicht.
-\lstinputlisting[
-    float,
-    floatplacement=H,
-    caption=Implementierung des Perceptrons,
-    label=lst:nnModel,
-    language=Python 
-]{nnModel.py}
-
-\subsection{Zusammenfassung}
-Die Tensorflow-lib eignet sich sehr gut für die Entwicklung von Deep Learning Systemen. \\
-Sie bietet sehr viele Funktionalitäten, die allerdings bei kleinen Beispielen, sehr kompliziert 
-werden können.\\
-Das Problem der Wohnungsbörse ist ein Problem, dass durchaus mit einem neuronalen Netz gelöst werden kann. 
-
-
