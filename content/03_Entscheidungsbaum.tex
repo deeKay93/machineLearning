@@ -8,8 +8,8 @@ Besonderer Augenmerk liegt hierbei auf den folgenden Anpassungen:
 \begin{description}
     \item[\autoref{alg:baum-erzeugen-a}] Anstatt einer binären \enquote{Ja-Nein}-Klassifikation wird als Ergebnis die Wahrscheinlichkeit dafür zurückgegben,
                     dass für den entsprechenden Datensatz das Ergebnis positiv ist.
-                    Werden so mehrere Datensätze bewertet können sie in einer Rangliste sortiert werden.
-                    Beispielsweise könnte ein Makler so bevorzugt wahrscheinlichere Mietobjekte anbieten.
+                    So können mehrere Datensätze bewertet und in einer Rangliste sortiert werden.
+                    Beispielsweise könnte ein Makler bevorzugt wahrscheinlichere Mietobjekte anbieten.
     \item[\autoref{alg:baum-erzeugen-b}] Für den Fall, dass die Beispielmenge zwei (oder mehr) identische Datensätze mit unterschiedlicher Klassifikation enthält,
     jedoch die Attributmenge leer ist, wird der Anteil der positiven Klassifikationen als Wert für den entsprechenden Knoten gesetzt.
     \item[\autoref{alg:baum-erzeugen-c}] Enthält die Beispielmenge nur noch positive oder nur noch negative Ergebnisse,
@@ -56,8 +56,8 @@ Besonderer Augenmerk liegt hierbei auf den folgenden Anpassungen:
 \end{algorithm}
 
 \noindent
-Die Auswahl des als nächsten zu betrachtenden Attributs geschieht mittels \autoref{alg:auswahl-merkmal}.
-Hierdurch wird das Attribut mit dem höchsten normierten Informationsgewinn ($Gain$) ausgewählt.
+Die Auswahl des als nächsten zu betrachtenden Attributs geschieht mittels \autoref{alg:auswahl-merkmal},
+welche das Attribut mit dem höchsten normierten Informationsgewinn ($Gain$) auswählt.
 Mathematisch basiert diese Funktion auf der Gleichung,
 welche in der Vorlesung vorgestellt wurde.
 
