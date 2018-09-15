@@ -14,24 +14,40 @@ nicht verwendet.
 
 Die folgende Auflistung zeigt die verwendeten Attribute:
 \begin{itemize}\label{lst:Eigenschaften}
-    \item \textbf{Kosten pro Quadratmeter:} Miete, Quadratmeter
-    \item \textbf{Gesamtkosten:} Nebenkosten, Miete, Kaution
-    \item \textbf{Kinderfreundlichkeit:} Schule, Kindergarten
-    \item \textbf{Mobilität:} Entfernung
-    \item \textbf{Ausstattung:} Möbliert
-    \item \textbf{Zimmerzahl}
+    \item \textbf{Kosten pro Quadratmeter (Miete, Quadratmeter):}
+    \begin{itemize}
+        \item löst die Korrelation zwischen Miete und der Anzahl der Quadratmeter und
+        stellt so eine aussagekräftigere Eigenschaft für die Bewertung des Preis-Leistungsverhältnisses dar.
+    \end{itemize}
+    \item \textbf{Gesamtkosten (Nebenkosten, Miete, Kaution):}
+    \begin{itemize}
+        \item  fassen alle Kosten zusammen. Dies ist möglich da diese Werte stark korrelieren.
+    \end{itemize}
+    \item \textbf{Kinderfreundlichkeit (Schule, Kindergarten):} 
+    \begin{itemize}
+        \item beinhaltet die Nähe zur Schule und zum Kindergarten, wie in 
+        der Analyse der Korrelationsmatrix (siehe \autoref{sec:analyse}) entdeckt, haben diese beiden 
+        Merkmale einen entscheidenden Einfluss auf die Bewertung.
+    \end{itemize}
+    \item \textbf{Mobilität (Entfernung):} 
+    \begin{itemize}
+        \item enthält das Entfernungsmerkmal. Die Korrelation zwischen Bewertung und Entfernung lieferte eine schwache lineare 
+        Abhängigkeit. Die notwendigkeit dieses Attributs könnte mit Hilfe eines Prototypen genauer überprüft werden.
+    \end{itemize}
+    \item \textbf{Ausstattung (Möbliert):}
+    \begin{itemize}
+        \item ist ein Attribut, welches auf Grund des Ergebnisses des Entscheidungsbaums
+        mit in die Liste aufgenommen wurde.
+    \end{itemize}
+    \item \textbf{Zimmerzahl} 
+    \begin{itemize}
+        \item wird als Attribut hinzugenommen, da es eine lineare Abhängigkeit in der Korrelationsmatrix zeigte. 
+    \end{itemize}
 \end{itemize}
 
-Ausgeschlossene Attribute mit Korrelationswerten unter $0,1$ beziehungsweise $-0,1$ sind:
+Ausgeschlossene Attribute mit Korrelationswerten unter $0,1$ beziehungsweise $-0,1$ sind:\\
 \emph{Stockwerk, Heizung, Hausmeister, S-Bahn, Alter, Aufzug, Lage, Küche, Bad, Balkon, Terrasse, Kehrwoche,}
-und \emph{Garage}.
-
-\paragraph{Kosten pro Quadratmeter}
-\todoask[inline]{Es wird nur auf die Kosten pro QM eingegangen, nicht die anderen parameter.
-Finde ich etwas verwirrend}
-Dieses Attribut löst die Korrelation zwischen Miete und der Anzahl der Quadratmeter und
-stellt so eine aussagekräftigere Eigenschaft für die Bewertung des Preis-Leistungsverhältnisses dar.
-
+und \emph{Garage}.\\
 
 \paragraph{Umwandlung der Daten in numerische Werte}
 Im nächsten Schritt müssen alle Werte in numerische Werte umgewandelt werden.
@@ -101,11 +117,6 @@ Allerdings erst bei einem Wert von $1$ ein maximales Signal.
     \label{eqn:sigmoid}
 \end{equation}
 
-
-\paragraph{Transferfunktion}
-\todoask[inline]{verstehe ich nicht so ganz}
-Die Transferfunktion wandelt die normierten Eingabewerte in die Ausgabe der einzelnen Neuronen um.
-
 \paragraph{Lernregel}
 Die Lernregel sorgt für die Anpassung der Gewichte. Das hier gewählte
 Verfahren ist das \textit{Backpropagation-Verfahren}.
@@ -128,7 +139,7 @@ Dieser gibt an, wie stark die Gewichte angepasst werden und liegt zwischen 0 und
 
 Bei einfachen Problemen kann der Lernkoeffizent $=1$ sein.
 Einerseits ist das hier beschriebene Problem nicht besonders einfach.
-Andereseits sind nicht viele Schichten zur Lösung des Problems notwendig.
+Andererseits sind nicht viele Schichten zur Lösung des Problems notwendig.
 Daher bietet es sich an einen Lernkoeffizent von $0,7$ zu wählen.
 Mit sinkendem Fehler kann dieser verringert werden,
 um zu verhindern, dass die optimale Lösung \enquote{übersprungen} wird.
