@@ -156,6 +156,7 @@ Um den Algorithmus zu Testen und dessen Ergebnisse zu bewerten wird er in versch
     \end{center}
 \end{table}
 
+\paragraph{Genauigkeit der Klassifikation}
 Die Genauigkeit der Klassifikation der jeweiligen Bäume wird bestimmt,
 indem sowohl für die Trainings- als auch für die Testdaten eine Klassifikation ermittelt wird.
 Die Ist-Klassifikation wird dann mit der Soll-Klassifikation verglichen.
@@ -190,8 +191,6 @@ Es ergeben sich die in \autoref{tab:run-results} dargestellten Ergebnisse:
     \end{center}
 \end{table}
 
-\todoask[inline]{Auch Unterscheidung False positive/negative betrachten?}
-
 Die Durchläufe mit dem Mindestverhältnis $2$ (T2, C2) scheiden im Vergleich sowohl bei den Test- als auch bei den Trainingsdaten am schlechtsten ab.
 Bei einem Mindestverhältnis von $0$ (T0, C0) ist das Abbruchkriterium quasi nicht vorhanden.
 In diesem Fall werden die Trainingsdaten exakt nachgebildet,
@@ -200,8 +199,87 @@ was bedeutet, dass alle Trainingsdaten korrekt klassifiziert werden.
 Im Fall der Konfiguration 2 mit einem Mindestverhältnis von $1$ (T1, C1) werden verglichen mit Konfiguration 1 in den Testdaten $0.25\%$ weniger korrekt klassifiziert.
 Der Anteil der korrekt klassifizierten Testdaten bleibt jedoch gleich.
 Daraus lässt sich schließen,
-dass der Baum allgemeiner ist was einern Überanpassung entgegenwirkt.
+dass der Baum allgemeiner ist was einer Überanpassung entgegenwirkt.
 
+\paragraph{Fehleranalyse}
+In \autoref{tab:run-results} wird gezeigt, dass die Klassifikation insgesamt ein zufriedenstellendes Ergebnis liefert.
+Je nach Anwendungsfall ist jedoch zu unterscheiden,
+ob ein falsch klassifizierter Datensatz ein \emph{False Positive} oder ein \emph{False Negative} ist.
+
+In \autoref{tab:fehleranalyse} sind die tatsächlichen Klassifikationen von T1 und C1 dargestellt.
+Für T1 gibt es lediglich \emph{False Postives}, jedoch sowohl für die Trainings,
+als auch die Testdaten.
+Im Fall von C1 werden alle Trainingsdaten korrekt klasifizert,
+allerdings entstehen in den Testdaten sowohl \emph{False Positives}, als auch ein \emph{False Negative}.
+
+Welcher der beiden Fehler schwerer wiegt hängt vom Anwendungdfall ab.
+Geht man in dem gegebenen Beispiel von einem Makler aus,
+so sind vermutlich \emph{False Negatives} gravieredner.
+Bieter der Makler diese nicht dem Kunden an,
+so kann der Kunde sich logischerweiße nicht für die Wohnung entscheiden.
+
+Da die Klassifikation keine \enquote{Ja-Nein}-Entscheidung trifft,
+sondern eine Zahl zwischen $0$ und $1$ zurückgibt,
+kann die Art des Fehlers beeinflusst werden.
+Nimmt man beispielsweise an,
+dass ein Datensatz bereits ab $0,3$ als positiv klassifiziert wird,
+so steigt die Anzahl der \emph{False Positives}.
+
+\useunder{\uline}{\ul}{}
+\begin{table}[h]
+	\begin{center}
+		\begin{tabular}{|c|c|c|}
+			\hline
+			                        & {\ul \textbf{T1}} & {\ul \textbf{C1}}   \\
+			\hline
+			{\ul \textbf{Trainingsdaten}}       &
+			{        \begin{tabular}{|l|l|l|}
+			\hline
+			{\ul \textbf{Ist/Soll}} & {\ul \textbf{Ja}} & {\ul \textbf{Nein}} \\
+			\hline
+			{\ul \textbf{Ja}}       & $68$              & $1$                 \\
+			\hline
+			{\ul \textbf{Nein}}     & $0$               & $331$               \\
+			\hline
+		\end{tabular}}
+		&            {
+        \begin{tabular}{|l|l|l|}
+			\hline
+			{\ul \textbf{Ist/Soll}} & {\ul \textbf{Ja}} & {\ul \textbf{Nein}} \\
+			\hline
+			{\ul \textbf{Ja}}       & $65$              & $0$                 \\
+			\hline
+			{\ul \textbf{Nein}}     & $0$               & $936$               \\
+			\hline
+		\end{tabular}}                 \\
+		\hline
+		{\ul \textbf{Testdaten}}     &            {
+        \begin{tabular}{|l|l|l|}
+			\hline
+			{\ul \textbf{Ist/Soll}} & {\ul \textbf{Ja}} & {\ul \textbf{Nein}} \\
+			\hline
+			{\ul \textbf{Ja}}       & $65$              & $11$                 \\
+			\hline
+			{\ul \textbf{Nein}}     & $0$               & $925$               \\
+			\hline
+		\end{tabular}}               &            {
+         \begin{tabular}{|l|l|l|}
+			\hline
+			{\ul \textbf{Ist/Soll}} & {\ul \textbf{Ja}} & {\ul \textbf{Nein}} \\
+			\hline
+			{\ul \textbf{Ja}}       & $67$              & $5$                 \\
+			\hline
+			{\ul \textbf{Nein}}     & $1$               & $327$               \\
+			\hline
+		\end{tabular}}               \\
+		\hline
+		\end{tabular}
+		\caption{Fehleranalyse}
+		\label{tab:fehleranalyse}
+	\end{center}
+\end{table}
+
+\paragraph{Auswirkungen des Mindestverhältnis}
 Die Entscheidungsbäume von T0 und T1 unterscheiden sich in in dem Unterbaum
 \emph{Schule (nah)} $\rightarrow$ \emph{Moebeliert (nein)} $\rightarrow$ \emph{Zimmerzahl (4)} $\rightarrow$ \emph{Kindergarten (nah)} $\rightarrow$ \emph{Kehrwoche (ja)}.
 \autoref{tab:diff} zeigt diesen Unterschied.
@@ -242,6 +320,7 @@ Mit lediglich zwei Datensätzen, welche sich in so vielen Attributen voneinander
 kann nicht mit Sicheheit bestimmt werden welches Attribut ausschlaggebend für die Entscheidung des Kunden ist.
 Um eine Überanpassung zu verhindern ist es daher sinnvoll diesen Unterbaum nicht weiter zu verzweigen.
 
+\paragraph{Interpretation des Baumes}
 Für T1 ergibt sich der in \autoref{appendix:baum-training} dargestellte Baum.
 Er zeigt folgende Eigenschaften der Trainingsdaten:
 \begin{itemize}
