@@ -4,9 +4,9 @@ Grundlegend basiert der Algorithmus zum Erzeugen des Entscheidungsbaums auf dem
 in der Vorlesung vorgestellten Verfahren \emph{ID3}.
 Ebenfalls wird die Verbesserung der Attributwahl durch den normierten Informationsgewinn übernommen.
 Ergänzt um weitere Optimierungen entsteht so das in \autoref{alg:baum-erzeugen} beschriebene Verfahren.
-Besonderer Augenmerk liegt hierbei auf den folgenden Anpassungen:
+Besonderes Augenmerk liegt hierbei auf den folgenden Anpassungen:
 \begin{description}
-    \item[\autoref{alg:baum-erzeugen-a}] Anstatt einer binären \enquote{Ja-Nein}-Klassifikation wird als Ergebnis die Wahrscheinlichkeit dafür zurückgegben,
+    \item[\autoref{alg:baum-erzeugen-a}] Anstatt einer binären \enquote{Ja-Nein}-Klassifikation wird als Ergebnis die Wahrscheinlichkeit dafür zurückgegeben,
                     dass für den entsprechenden Datensatz das Ergebnis positiv ist.
                     So können mehrere Datensätze bewertet und in einer Rangliste sortiert werden.
                     Beispielsweise könnte ein Makler bevorzugt wahrscheinlichere Mietobjekte anbieten.
@@ -56,7 +56,7 @@ Besonderer Augenmerk liegt hierbei auf den folgenden Anpassungen:
 \end{algorithm}
 
 \noindent
-Die Auswahl des als nächsten zu betrachtenden Attributs geschieht mittels \autoref{alg:auswahl-merkmal},
+Die Auswahl des nächsten zu betrachtende Attribut geschieht mittels \autoref{alg:auswahl-merkmal},
 welche das Attribut mit dem höchsten normierten Informationsgewinn ($Gain$) auswählt.
 Mathematisch basiert diese Funktion auf der Gleichung,
 welche in der Vorlesung vorgestellt wurde.

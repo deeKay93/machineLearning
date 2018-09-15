@@ -1,16 +1,20 @@
 \section{Einleitung}\label{sec:einleitung}
 In diesem Programmentwurf wird das Problem \emph{Erlernen von Kundenpräferenzen in einer Wohnungsbörse}
-bearbeitet. Gegeben sind zwei Datensätze: 
+bearbeitet. Gegeben sind zwei Mengen von Datensätzen:
 \begin{itemize}
-    \item Datensatz zum Trainieren mit erwartetem Ergebnis
-    \item Datensatz zum Testen ohne erwartetes Ergebnis
+    \item Trainingsdaten zum Trainieren das Algorithmus
+    \item Testdaten zur Überprüfung des trainierten Algorithmus
 \end{itemize}
 
-Die Datensätze beschreiben 22 Merkmale von Wohnungen die in einer Wohnungsbörse angeboten werden. \\
-Zunächst werden die gegebenen Daten analysiert. Anschließend werden die aus der Analyse gewonnenen Informationen 
-in ein Konzept für einen Entscheidungsbaum einfließen. 
-Als ein alternatives Konzept wird der Entwurf eines neuronalen Netzes vorgestellt. Hierfür werden unteranderem
-die Daten vorverarbeitet und die Struktur und Arbeitsweise des neuronalen Netzes definiert. Das Netz wird allerdings nicht praktisch getestet. 
-Um das Problem der Wohnungsbörse zu lösen wird abschließend der Entscheidungsbaum implementiert und optimiert. 
-Der Entscheidungsbaum wird mit den Trainingsdaten aufgebaut und mit den Testdaten validiert.
+Die Datensätze beschreiben 22 Merkmale von Wohnungen,
+die in einer Wohnungsbörse angeboten werden.
+
+Zunächst werden die gegebenen Daten analysiert.
+Erkenntnisse aus der Analyse werden genutzt um den Algorithmus für einen Entscheidungsbaum zu modellieren.
+Als ein alternatives Konzept wird der Entwurf eines neuronalen Netzes vorgestellt.
+Hierfür werden unteranderem die Daten vorverarbeitet und die Struktur und Arbeitsweise des neuronalen Netzes definiert.
+Das Netz wird allerdings nicht praktisch getestet.
+
+Um das Problem der Wohnungsbörse zu lösen wird abschließend der Entscheidungsbaum implementiert.
+Er wird mit den Trainingsdaten aufgebaut und mit den Testdaten validiert.
 Die Ergebnisse und Erkenntnisse werden schließlich zusammengefasst und bewertet.

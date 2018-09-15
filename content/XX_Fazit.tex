@@ -1,24 +1,25 @@
 \section{Fazit}\label{sec:fazit}
 \paragraph{Neuronales Netz}
-In diesem Programmentwurf wurde das Konzept für ein neuronales Netz vorgestellt, dass das Wohnungsbörsenproblem
-löst. Bei einem Konzept für ein neuronales Netz ist die Vorverarbeitung ein sehr wichtiger und nicht zu vernachlässigender 
-Schritt Der nächste Schritt ist es nun, dieses Konzept praktisch zu testen. Dies könnte beispielsweise mit der 
-Python-Bibliothek \emph{Tensorflow} umgesetzt werden.
+In diesem Programmentwurf wurde das Konzept für ein neuronales Netz vorgestellt,
+welches das Wohnungsbörsenproblemblöst.
+Bei einem Konzept für ein neuronales Netz ist die Vorverarbeitung ein sehr wichtiger und nicht zu vernachlässigender Schritt.
+Der nächste Schritt ist es nun, dieses Konzept praktisch zu testen.
+Beispielsweise ist eine Umsetzung mit der Python-Bibliothek \emph{Tensorflow} denkbar.
 Tensorflow bietet verschiedene Methoden, mit deren Hilfe Deep Learning Systeme erstellt werden können.
-Einige Parameter wie zum Beispiel die Lernrate können mithilfe der praktischen Umsetzung weiter optimiert werden. \\
-Generell lässt sich feststellen, dass ein neuronales Netz die gegebene Problemstellung lösen kann. 
+Einige Parameter wie zum Beispiel die Lernrate können im Rahmen einer praktischen Umsetzung weiter optimiert werden. \\
+Generell lässt sich feststellen, dass ein neuronales Netz die gegebene Problemstellung lösen kann.
 
 \paragraph{Ergebnis und Implementierung}
-Durch die Klassifikation eines Datensatzes werden Ergebnisse der Klassifikation untereinander vergleichbar.
-So würde der Kunde (anhand der Trainingsdaten) eine  \emph{schulnahe, unmöbelierte, 4-5-Zimmer-Wohnung in erreichbarer Kindergartennähe mit Badewanne} wahrscheinlicher als positiv bewerten,
-als eine \emph{schulnahe, unmöbelierte, 5-Zimmer-Wohung mit 71-80 Quadratmetern}.
+Durch die Klassifikation eines Datensatzes als numerischen Wert werden die Ergebnisse der Klassifikation untereinander vergleichbar.
+So würde der Kunde (anhand der Trainingsdaten) eine  \emph{schulnahe, unmöblierte, 4-5-Zimmer-Wohnung in erreichbarer Kindergartennähe mit Badewanne} wahrscheinlicher als positiv bewerten,
+als eine \emph{schulnahe, unmöblierte, 5-Zimmer-Wohnung mit 71-80 Quadratmetern}.
 
-Die \emph{Verhältnisoptimierung} wirkt einer Überanpassung des Baumes entgegen.
+Die \enquote{Verhältnisoptimierung} wirkt einer Überanpassung des Baumes entgegen.
 Zwar hat ein Mindestverhältnis von $1$ in den gegebenen Daten keinen Einfluss auf die Klassifikation der Testdaten und sogar einen negativen Einfluss auf die Trainingsdaten.
-Allerdings zeigt sich beim direkten Verlgeich der Bäume,
+Allerdings zeigt sich beim direkten Vergleich der Bäume,
 dass durch das Verhältnis der Baum weniger tief und damit allgemeiner ist.
 
-Allerdings kann diese Optimierung auch dazu führen,
+Diese Optimierung kann allerdings auch dazu führen,
 dass alle Blattknoten eines Baumes das gleiche binäre Ergebnis liefern.
 Ist lediglich eine binäre Klassifikation gewünscht,
 so sollte der Baum nachträglich \enquote{gesäubert} werden,

@@ -4,7 +4,7 @@ Lediglich um Kommandozeilenparameter angenehmer einzupflegen wird eine Bibliothe
 
 \subsection{Aufbau}
 Der Aufbau des Programms ist in \autoref{fig:klasse} dargestellt.
-Um die Übersichtlichkeit nicht weiter Einzuschränken wird auf das Auflisten der Funktionsparameter verzichtet.
+Um die Übersichtlichkeit nicht weiter einzuschränken wird auf das Auflisten der Funktionsparameter verzichtet.
 In \autoref{appendix:klassendiagramm} ist das gesamte Diagramm nochmals vergrößert abgebildet.
 
 \begin{figure}[ht!]
@@ -12,12 +12,12 @@ In \autoref{appendix:klassendiagramm} ist das gesamte Diagramm nochmals vergrö�
     \resizebox{\textwidth}{!}{
         \input{assets/img/diagramme/klassendiagramm.latex}
     }
-    \caption{Aufubau des Programms}
+    \caption{Aufbau des Programms}
     \label{fig:klasse}
 \end{figure}
 
 \subsection{Ausführen des Programms}
-Im Anhang an diese Dokument befindet sich die Datei \enquote{tree.jar}.
+Im Anhang an dieses Dokument befindet sich die Datei \enquote{tree.jar}.
 Grundlegend kann das Programm, wie in \autoref{lst:jar-aufruf} gezeigt, aufgerufen werden.
 Erforderlich ist hierfür zumindest Java in der Version 8.
 
@@ -30,7 +30,7 @@ java -jar tree.jar
 \end{lstlisting}
 
 Das Programm kann durch verschiedene Parameter beeinflusst werden:
-Diese sind mit ihren Standartwerte sind in folgender Übersicht dargestellt.
+Diese sind mit ihren Standartwerte in folgender Übersicht dargestellt.
 
 \begin{description}
     \setlength\itemsep{-0.5em}
@@ -44,7 +44,7 @@ Diese sind mit ihren Standartwerte sind in folgender Übersicht dargestellt.
         Wenn gesetzt, wird der Baum wie in \autoref{appendix:baum-training} dargestellt\\
         Standard: false
     \item[\texttt{-{}-default, -d}]
-        Initiale Defaultwahrscheinlichkeit\\
+        Initiale Default Wahrscheinlichkeit\\
         Standard: 0,5
     \item[\texttt{-{}-min-ratio, -r}]
         Mindestverhältnis zwischen Werten eines Attributs und Beispielmenge zur weiteren Unterteilung.\\
@@ -68,18 +68,18 @@ Jedes \lstinline[language=Java]{enum} gibt über die Funktion
 \lstinline[language=Java]{getWerte()} die möglichen Ausprägungen als Liste von Zeichenketten zurück.
 
 Auf diese Weise kann das entsprechende Attribut als Parameter in Funktionsaufrufen übergeben werden und
-innerhalb dieser Funktion kann -- falls notwendig -- auf die möglichen Attributswerte zugegriffen werden.
+innerhalb dieser Funktion kann -- falls notwendig -- auf die möglichen Attributwerte zugegriffen werden.
 
 \paragraph{Einlesen der Daten}
-Weitestgehend werden die Daten direkt eingelesen und in ein \emph{Datensatz}-Objekt überführt.
+Weitestgehend werden die Werte der Datensätze direkt eingelesen und in ein \emph{Datensatz}-Objekt überführt.
 Dieses Objekt enthält je ein Attribut für jedes der Merkmale und die Bewertung.
 Für das Merkmal \enquote{Heizung} und für die Bewertung sind jedoch Schritte zur Vorverarbeitung notwendig:
 
-Aus dem Zeichenketten \enquote{ja} und \enquote{nein} der Bewertung wird der entsprechende boolesche Wert ermittel.
-In der Attributsausprägung \enquote{Lueftungsheizung} enthält der Datensatz anstatt des \textit{ue} ein undefiniertes Zeichen.
+Aus dem Zeichenketten \enquote{ja} und \enquote{nein} der Bewertung wird der entsprechende boolesche Wert ermittelt.
+In der Attributausprägung \enquote{Lueftungsheizung} enthält der Datensatz anstatt des \textit{ue} ein undefiniertes Zeichen.
 Dieses Problem wird dadurch gelöst, dass der Wert wie in \autoref{lst:heizung} angepasst wird.
 Zwar wäre auch eine einmalige Änderung der entsprechende Werte in der Beispieldatei möglich,
-die Programmzeile gestattet es aber auch, dass andere Dateien mit gleicher Formatierung bedenkenlos genutzt werden können.
+die Programmzeile ermöglicht es aber auch, dass andere Dateien mit gleicher Formatierung bedenkenlos genutzt werden können.
 
 \begin{lstlisting}[
     firstnumber=54,
@@ -94,7 +94,7 @@ heizung = heizung.endsWith("ftungsheizung") ?
 \end{lstlisting}
 
 \paragraph{Datensatz}
-Ein Datensatz-Objekt enthält für jeden relevanten Merkmalstyp eine Zeichenkette mit entsprechenden Namen.
+Ein Datensatz-Objekt enthält für jeden Merkmalstyp eine Zeichenkette mit entsprechenden Namen.
 Um dynamisch den Wert eines bestimmten Attributs zu erhalten kann dieses über die Funktion \lstinline[language=Java]{get()}
 in \autoref{lst:datensatz-get} abgefragt werden.
 
@@ -104,9 +104,9 @@ in \autoref{lst:datensatz-get} abgefragt werden.
     language=Java
 ]{datensatz_get.java}
 
-Für alle anderen Attribute wird der entsprechende Wert des Datensatzes zurückgegben.
-Da die Bewertung ein boolescher Wert ist, die Funktion aber eine Zeichenkette zurückgeben muss,
+Da die Bewertung ein boolescher Wert ist, die Funktion aber eine Zeichenkette zurückgegeben muss,
 wird dieser Wert entsprechend in eine Konstante umgewandelt.
+Für alle anderen Attribute wird der entsprechende Wert des Datensatzes zurückgegeben.
 
 \paragraph{Spezialisierung}
 Das vorliegende Programm ist vor alle durch die Attribute und den Datensatz stark auf den gegebenen Anwendungsfall spezialisiert.
@@ -115,7 +115,7 @@ Dies würde jedoch die Komplexität und damit die Fehleranfälligkeit des Progra
 
 \paragraph{Rekursionen}
 Zum Erstellen des Baumes, aber auch zu Evaluation eines Datensatzes und zum Darstellen des Baumes wird Rekursion genutzt.
-Beim Erstellen wird ein Attribut ausgewählt, und für jede Ausprägung ein Unterbaum nach gleiche Muster gebildet bis eine Endebedingung erreicht ist.
+Beim Erstellen wird ein Attribut ausgewählt und für jede Ausprägung ein Unterbaum nach gleichem Muster gebildet bis eine Ende-Bedingung erreicht ist.
 Details hierzu sind in \autoref{alg:baum-erzeugen} dargestellt.
 
 Die Ausgabe des Baums geschieht,
@@ -124,7 +124,7 @@ dann nach und nach die Daten der Unterbäume zu einer Zeichenkette hinzugefügt 
 
 Um den Wert eines neuen Datensatzes zu ermitteln wird ausgehend von der Wurzel in jedem Knoten der zugehörige Attributwert aus dem Datensatz ausgelesen.
 Dann wird die Bestimmungsfunktion des zu diesem Wert zugehörige Unterbaums aufgerufen.
-Dies geschieht rekursiv bis ein Blattknoten erreicht und damit der Baum ermittelt ist.
+Dies geschieht rekursiv bis ein Blattknoten erreicht und damit der Wert ermittelt ist.
 
 \subsection{Test und Ergebnisbewertung}
 Um den Algorithmus zu Testen und dessen Ergebnisse zu bewerten wird er in verschiedenen Konfigurationen ausgeführt (siehe \autoref{tab:run-config}).
@@ -191,12 +191,12 @@ Es ergeben sich die in \autoref{tab:run-results} dargestellten Ergebnisse:
     \end{center}
 \end{table}
 
-Die Durchläufe mit dem Mindestverhältnis $2$ (T2, C2) scheiden im Vergleich sowohl bei den Test- als auch bei den Trainingsdaten am schlechtsten ab.
+Die Durchläufe mit Mindestverhältnis $2$ (T2, C2) scheiden im Vergleich sowohl bei den Test- als auch bei den Trainingsdaten am schlechtesten ab.
 Bei einem Mindestverhältnis von $0$ (T0, C0) ist das Abbruchkriterium quasi nicht vorhanden.
 In diesem Fall werden die Trainingsdaten exakt nachgebildet,
 was bedeutet, dass alle Trainingsdaten korrekt klassifiziert werden.
 
-Im Fall der Konfiguration 2 mit einem Mindestverhältnis von $1$ (T1, C1) werden, verglichen mit Konfiguration 1, in den Testdaten $0.25\%$ weniger korrekt klassifiziert.
+Im Fall der Konfiguration 2 mit einem Mindestverhältnis von $1$ (T1, C1) werden, verglichen mit Konfiguration 1, in den Testdaten $0.25\%$ weniger Datensätze korrekt klassifiziert.
 Der Anteil der korrekt klassifizierten Testdaten bleibt jedoch gleich.
 Daraus lässt sich schließen,
 dass der Baum allgemeiner ist, was einer Überanpassung entgegenwirkt.
@@ -216,7 +216,7 @@ Welcher der beiden Fehler schwerer wiegt, hängt vom Anwendungsfall ab.
 Geht man in dem gegebenen Beispiel von einem Makler aus,
 so sind vermutlich \emph{False Negatives} gravierender.
 Bietet der Makler diese Wohnung dem Kunden nicht an,
-so kann der Kunde sich logischerweiße nicht für sie entscheiden.
+so kann der Kunde sich logischerweise nicht für sie entscheiden.
 
 Da die Klassifikation keine \enquote{Ja-Nein}-Entscheidung trifft,
 sondern eine Zahl zwischen $0$ und $1$ zurückgibt,
@@ -280,7 +280,7 @@ so steigt die Anzahl der \emph{False Positives}.
 \end{table}
 
 \paragraph{Auswirkungen des Mindestverhältnis}
-Die Entscheidungsbäume von T0 und T1 unterscheiden sich in dem Unterbaum
+Die Entscheidungsbäume von T0 und T1 unterscheiden sich im Unterbaum
 \emph{Schule (nah)} $\rightarrow$ \emph{Moebliert (nein)} $\rightarrow$ \emph{Zimmerzahl (4)} $\rightarrow$ \emph{Kindergarten (nah)} $\rightarrow$ \emph{Kehrwoche (ja)}.
 \autoref{tab:diff} zeigt diesen Unterschied.
 
@@ -312,19 +312,19 @@ Die Entscheidungsbäume von T0 und T1 unterscheiden sich in dem Unterbaum
     \end{center}
 \end{table}
 
-Betrachtet man die eigentlichen Trainingsdaten, so finden sich lediglich zwei Datensätze.
+Betrachtet man die eigentlichen Trainingsdaten, so finden sich dort lediglich zwei Datensätze.
 Diese unterscheiden sich in den Attributen \emph{Stockwerk, Heizung, S-Bahn, Miete, Nebenkosten, Alter, Lage, Entfernung, Kaution, Bad, Balkon} und \emph{Quadratmeter}
 Die Auswahl von \emph{Stockwerk} in T0, basiert also nicht auf dem besten Merkmal,
  sondern auf der Reihenfolge der Merkmale.
 Mit lediglich zwei Datensätzen, welche sich in so vielen Attributen voneinander unterscheiden,
-kann nicht mit Sicheheit bestimmt werden welches Attribut ausschlaggebend für die Entscheidung des Kunden ist.
+kann nicht mit Sicherheit bestimmt werden welches Attribut ausschlaggebend für die Entscheidung des Kunden ist.
 Um eine Überanpassung zu verhindern ist es daher sinnvoll diesen Unterbaum nicht weiter zu verzweigen.
 
 \paragraph{Interpretation des Baumes}
 Für T1 ergibt sich der in \autoref{appendix:baum-training} dargestellte Baum.
 Er zeigt folgende Eigenschaften der Trainingsdaten:
 \begin{itemize}
-    \item Für die Kunden ist es unumgänglich, dass die Wohnung in Schulnähe und nicht möbeliert ist.
+    \item Für die Kunden ist es unumgänglich, dass die Wohnung in Schulnähe und nicht möbliert ist.
     \item Es kommen nur Wohnungen zwischen 3-4 und 5 Zimmern in Frage.
     \item Bei 3-4 bis 4-5 Zimmern darf die Wohnung nicht zu weit von einem Kindergarten entfernt sein.
     \item Ist eine 4-5 Zimmerwohnung in erreichbarer Nähe eines Kindergartens, so sollte sie nicht nur ein Waschbecken enthalten.
@@ -333,13 +333,13 @@ Er zeigt folgende Eigenschaften der Trainingsdaten:
 
 Aus diesen Eigenschaften lässt sich Interpretieren,
 dass der Kunde eine Familie mit Schul- und wahrscheinlich Kindergartenkind(ern) ist.
-Hauptindizien hierfür sind, die Nähe zu Schule und Kingergarten, sowie die Zimmerzahl.
+Hauptindizien hierfür sind, die Nähe zu Schule und Kindergarten, sowie die Zimmerzahl.
 
 
 Betrachtet man den Baum von C1 in \autoref{appendix:baum-test},
-so finden sich diese Merkmale weitestgehen wieder.
+so finden sich diese Merkmale weitestgehend wieder.
 Auch hier ist die Nähe zur Schule das wichtigste Merkmal.
 Allerdings folgt als nächstes Merkmal die Zimmerzahl (wieder mit 3-4 bis 5 Zimmern).
 Erst anschließend folgen - je nach Zimmerzahl in unterschiedlichen Reihenfolgen - die Kindergartennähe,
-das Bad, und die Möbelierung.
-Interessanterweiße kommen in zwei Fällen die Attribute Kaution beziehungweise die Art der Heizung hinzu.
+das Bad, und die Möblierung.
+Interessanterweise kommen in zwei Fällen die Attribute Kaution beziehungsweise die Art der Heizung hinzu.

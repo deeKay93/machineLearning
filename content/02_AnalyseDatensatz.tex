@@ -1,26 +1,25 @@
-\section{Analyse des Datensatzes}\label{sec:analyse}
-Um Konzepte für lernende Systeme aufzubauen, ist es zunächst sinnvoll sich mit 
-dem gegebenen Datensatz auseinander zu setzen. 
-Gegeben sind 22 Attribute die jeweils eine Eigenschaft einer Wohnung darstellen. 
-Die Attribute sind in verschiedenen Formen angegeben: 
+\section{Analyse der Daten}\label{sec:analyse}
+Um Konzepte für lernende Systeme aufzubauen, ist es zunächst sinnvoll sich mit
+deb gegebenen Daten auseinanderzusetzen.
+Gegeben sind 22 Attribute, die jeweils eine Eigenschaft einer Wohnung darstellen.
+Die Attribute sind in verschiedenen Formen angegeben:
 \begin{itemize}
     \item Boolean-Werte: Hausmeister, Garage, Aufzug, Balkon, Terrasse, Kehrwoche, Möbliert (z.B. ja)
-    \item Text-Werte: Heizung, Lage, Bad (z.B. Ölheizung)
-    \item Int-Bereiche: Zimmer, Stockwerk, Miete, Nebenkosten, Alter, Entfernung, Kaution, Quadratmeter (z.B. 2-3 Zimmer)
-    \item Kategorien: Kindergarten, Schule, S-Bahn, Küche (z.B. Küche(alt))
+    \item Text-Werte: Heizung, Lage, Bad, Küche (z.B. Ölheizung)
+    \item Bereiche von Ganzzahlen: Zimmer, Stockwerk, Miete, Nebenkosten, Alter, Entfernung, Kaution, Quadratmeter (z.B. 2-3 Zimmer)
+    \item Kategorien von Entfernungen: Kindergarten, Schule, S-Bahn (z.B. Nah)
 \end{itemize}
 
-Der Datensatz zum Trainieren und Aufbauen von lernenden Systemen erhält zusätzlich 
-ein Bewertungsattribut $k$. 
-Auffällig ist, dass bei 400 Einträgen lediglich 68 positive Bewertungen gegeben wurden. 
-Dies entspricht 17\%. 
+Jeder Datensatz enthält zusätzlich ein Bewertungsattribut $k$.
+Auffällig ist, dass in den Trainingsdaten bei 400 Einträgen lediglich 68 positive Bewertungen gegeben wurden.
+Dies entspricht $17\%$.
 
-Da für den Aufbau der Systeme der Trainingdatensatz verwendet wird, wird dieser mithilfe einer Korrelationsmatrix 
-genauer analysiert. Diese zeigt die Abhängigkeiten zwischen den Eigenschaften. 
+Da für den Aufbau der Systeme der Trainingsdatensatz verwendet wird, wird dieser mit Hilfe einer Korrelationsmatrix
+genauer analysiert. Diese zeigt die Abhängigkeiten zwischen den Eigenschaften.
 
-\autoref{tab:korr1} ist ein Ausschnitt der Korrelationsmatrix der eine besonders starke Korrelation aufzeigt. \\
+\autoref{tab:korr1} ist ein Ausschnitt der Korrelationsmatrix, der eine besonders starke Korrelation aufzeigt. \\
 Auffällig ist, dass zwischen Miete, Zimmerzahl und Quadratmeter ein fast vollständig linearer Zusammenhang
-besteht. Auch zur Kaution besteht ein mittelstarker positiver linearer Zusammenhang.
+besteht. Zur Kaution besteht ebenfalls ein mittelstarker positiver linearer Zusammenhang.
 
 \useunder{\uline}{\ul}{}
 \begin{table}[h]
@@ -39,9 +38,9 @@ besteht. Auch zur Kaution besteht ein mittelstarker positiver linearer Zusammenh
     \end{center}
 \end{table}
 
-Auch der Ausschnitt aus \autoref{tab:korr2} zeigt einen linearen Zusammenhang zwischen Eigenschaften. Die Korrelationskoeffizienten 
-zeigen hier einen mittelstarken linearen Zusammenhang zwischen Stockwerk, Balkon und Aufzug. 
-Auch die Kehrwoche ist mit einem schwachen positiv linearen Zusammenhang zum Stockwerk dargestellt. 
+Der Ausschnitt aus \autoref{tab:korr2} zeigt einen linearen Zusammenhang zwischen Eigenschaften. Die Korrelationskoeffizienten
+zeigen hier einen mittelstarken linearen Zusammenhang zwischen Stockwerk, Balkon und Aufzug.
+Die Kehrwoche ist mit einem schwachen positiv linearen Zusammenhang zum Stockwerk dargestellt.
 
 \useunder{\uline}{\ul}{}
 \begin{table}[h]
@@ -58,9 +57,9 @@ Auch die Kehrwoche ist mit einem schwachen positiv linearen Zusammenhang zum Sto
         \label{tab:korr2}
     \end{center}
 \end{table}
- 
-Wird auch das Bewertungsattribut in die Korrelationsmatrix eingebunden, können bereits erste Vermutungen dazu getroffen werden, 
-welche Attribute besonders aussagekräftig, beziehungsweise welche weniger relevant für die Bewertung einer Wohnung sind. 
+
+Wird auch das Bewertungsattribut in die Korrelationsmatrix eingebunden, können bereits erste Vermutungen dazu getroffen werden,
+welche Attribute besonders aussagekräftig, beziehungsweise welche weniger relevant für die Bewertung einer Wohnung sind.
 \autoref{tab:korrBewertung} zeigt die Attribute, die die stärkste Korrelation zur Bewertung besitzen.
 \useunder{\uline}{\ul}{}
 \begin{table}[h]
@@ -80,4 +79,4 @@ welche Attribute besonders aussagekräftig, beziehungsweise welche weniger relev
 
 Die Schule ist mit einem mittelstarken linearen Zusammenhang sehr aussagekräftig für die Bewertung.
 Diese Aussage soll mit den folgenden Programentwürfen und der Implementierung des Entscheidungsbaumes
-überprüft werden. 
+überprüft werden.
