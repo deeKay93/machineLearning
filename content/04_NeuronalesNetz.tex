@@ -2,10 +2,10 @@
 \subsection{Vorverarbeitung der Daten}
 In der Analyse der Daten (siehe\autoref{sec:analyse}) wurde die Korrelation 
 der verschiedenen Eigenschaften von Wohnungen untersucht. Die dort gefundenen
-Zusammenhänge können nun verwendet werden, um die Eingaben für das Neuronale 
+Zusammenhänge können nun verwendet werden, um die Eingaben für das neuronale 
 Netz anzupassen. Dies ist notwendig, da ein neuronales Netz effizienter
 die gewünschte Funktion erlernen kann, wenn die Eingaben aussagekräftige 
-Informationen darstellen. \\
+Informationen enthalten. \\
 Aus diesem Grund werden für das Netz nicht einfach die in der Aufgabenstellung 
 gegebenen Attribute verwendet sondern Attribute die eine hohe Korrelation besitzen
 zusammengefasst und Attribute die einen geringen Einfluss auf die Bewertung haben
@@ -25,7 +25,7 @@ Stockwerk, Heizung, Hausmeister, S-Bahn, Alter, Aufzug, Lage, Küche, Bad, Balko
 und Garage.
 
 \paragraph{Kosten pro Quadratmeter}
-Dieses Attribut löst die Korrelation zwischen Miete und der Anzahl der Quadratmeter und kann 
+Dieses Attribut löst die Korrelation zwischen Miete und der Anzahl der Quadratmeter und 
 stellt so eine aussagekräftigere Eigenschaft für die Bewertung des Preis-Leistungsverhältnisses dar.
 
 
@@ -65,7 +65,7 @@ vermieden werden soll.
 Das Netz soll aus $6$ Eingabewerten einen Ausgabewert berechnen. 
 \autoref{img:nnStruktur} zeigt die Struktur des Netzes zum Lösen 
 dieses Problems. 
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
     \includegraphics[width=15cm]{NNStruktur.PNG}
     \label{img:nnStruktur}
@@ -80,7 +80,7 @@ lediglich ein Neuron, dass die Bewertung der Wohnung angibt.
 
 \paragraph{Initiale Gewichtung der Neuronen}
 Die initialen Gewichte für das Netz werden zufällig gesetzt. Diese werden in der Lernphase 
-mit hilfe einer Lernregel angepasst.
+mit Hilfe der Lernregel angepasst.
 
 \paragraph{Aktivierungsfunktion und Schwellwert}
 Die Aktivierungsfunktion eines Neurons gibt an, ab welchem Wert das Neuron das 
@@ -107,7 +107,7 @@ Dieses Verfahren bietet sich an, da nach der Berechnung leicht der Netzfehler be
 Der Fehler wird anschließend zurück durch das Netz propagiert und die Gewichte
 werden angepasst. Die Fehlerbestimmung erfolgt schichtweiße,beginnent mit der Output-Layer, 
 da hier der erwartete Wert zur Verfügung steht. Wurden die Fehler von jeder 
-Schicht bestimmt, werden die Gewichte,angepasst. 
+Schicht bestimmt, werden die Gewichte angepasst. 
 Wie die Gewichte angepasst werden zeigt \autoref{eqn:gewichte}. 
 Hierbei wird das Gewicht des Neurons $j$ angepasst bei einer Eingabe, 
 von Neuron $i$.
