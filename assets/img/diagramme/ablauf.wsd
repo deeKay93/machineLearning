@@ -1,6 +1,0 @@
-@startuml test
-
-(*) --> "First Activity"
-"First Activity" --> (*)
-
-@enduml

@@ -1,0 +1,167 @@
+@startuml klassendiagramm
+skinparam monochrome true
+skinparam classAttributeIconSize 0
+page 2x2
+
+enum Attribut{
+    Zimmerzahl
+	Stockwerk
+	Heizung
+    Hausmeister
+	Kindergarten
+    Schule
+	SBahn
+    Garage
+	Miete
+	Nebenkosten
+	Alter
+	Aufzug
+    Lage
+	Entfernung
+	Kaution
+	Kueche
+	Bad
+    Balkon
+	Terrasse
+    Kehrwoche
+    Moebliert
+    Quadratmeter
+	Bewertung
+    --
+    getWerte(): String[]
+}
+class Datensatz{
+    - Zimmerzahl: String
+	- Stockwerk: String
+	- Heizung: String
+	- Hausmeister: String
+	- Kindergarten: String
+	- Schule: String
+	- SBahn: String
+	- Garage: String
+	- Miete: String
+	- Nebenkosten: String
+	- Alter: String
+	- Aufzug: String
+	- Lage: String
+	- Entfernung: String
+	- Kaution: String
+	- Kueche: String
+	- Bad: String
+	- Balkon: String
+	- Terrasse: String
+	- Kehrwoche: String
+	- Moebliert: String
+	- Quadratmeter: String
+	- Bewertung: boolean
+    --
+    + get(): String
+    + getBewertung(): boolean
+}
+
+class Main{
+    trainingsDatei: String
+    testDatei: String
+    printTree: boolean
+    defaultValue: double
+    minRatio: double
+    gespeicherterBaum: String
+    zuSpeichernderBaum: String
+    help: boolean
+    {static} commander: JCommander
+    --
+    + {static} main()
+    + {static} pruefeBaum()
+    + run()
+}
+
+
+package baeume {
+    class BaumManager{
+        --
+        + {static} erstelleBaum(): Baum
+        + {static} speichere()
+        + {static} lade(): Baum
+
+        - {static} waehleAttribut(): Attribut
+        - {static} entferneAttribut(): Attribut[]
+    }
+    class Baum{
+        - unterbaeume: Map<String, Baum>
+        --
+        + predict(): double
+    }
+    class Blatt{
+        - wert: double
+        --
+        + predict(): double
+    }
+
+    Baum <|- Blatt
+    BaumManager - Baum : erstellt >
+    Main - BaumManager : nutzt >
+    BaumManager - Datensatz : nutzt >
+    Baum - "1" Attribut : wurzel >
+}
+
+package util {
+    class Funktionen{
+        --
+        + {static} wahrscheinlichkeit(): double
+        + {static} normierterInformationsgewinn(): double
+
+        - {static} informationsgehalt(): double
+        - {static} entropie(): double
+        - {static} bedingteWahrscheinlichkeit(): double
+        - {static} bedingteEntropie(): double
+        - {static} gesamtBedingteEntropie(): double
+        - {static} informationsgewinn(): double
+    }
+
+    class Konstanten{
+        +{static} wahr: String
+        +{static} falsch: String
+    }
+
+
+    class Reader{
+        - datei: String
+        - kopfzeileVorhanden: boolean
+        --
+        - werteAuslesen(): List<String[]>
+        + lade(): List<Datensatz>
+    }
+    Reader -- Datensatz: erzeugt Liste >
+    BaumManager -- Konstanten : nutzt >
+    BaumManager -- Funktionen: nutzt >
+    Funktionen -- Datensatz : nutzt >
+
+  package filter {
+      interface IFilter {
+          -
+          + apply(): List<Datensatz>
+      }
+      class AndFilter{
+          --
+          + apply(): List<Datensatz>
+      }
+      class Filter{
+          - wert: String
+          --
+          + apply(): List<Datensatz>
+      }
+      Filter - "1" Attribut : filtert mit >
+      AndFilter - "2" Filter : kombiniert >
+
+      IFilter <|-d- Filter
+      IFilter <|-d- AndFilter
+      Funktionen - Filter: nutzt >
+      Funktionen -u- AndFilter: nutzt >
+}
+
+}
+
+    Main - Datensatz : nutzt >
+    Attribut - Datensatz : nutzt <
+
+@enduml
